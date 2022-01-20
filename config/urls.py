@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import showIndex
-from EDuser.views import RegisterView
+from EDuser.views import RegisterView,RegisterProfileView, LoginView, logout
 
 
 
@@ -27,7 +27,10 @@ from EDuser.views import RegisterView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', showIndex),
-    path('register/', RegisterView.as_view() )
+    path('register/', RegisterView.as_view(), name='register'),
+    path('registerProfile/',RegisterProfileView),
+    path('login/', LoginView.as_view(),name='login'),
+    path('logout/', logout, name='logout')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
