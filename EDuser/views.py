@@ -7,14 +7,11 @@ from .models import Eduser
 from .forms import RegisterForm, ProfileForm, LoginForm
 
 # Create your views here.
-def index(request):
-    return render(request, "base/home.html", {"email": request.session.get("user")})
-
 
 class RegisterView(FormView):
     template_name = "EDuser/register.html"
     form_class = RegisterForm
-    success_url = "/registerProfile"
+    success_url = "/"
 
     def form_valid(self, form):
         eduser = Eduser(
@@ -23,25 +20,23 @@ class RegisterView(FormView):
             password=make_password(form.data.get("password")),
         )
         eduser.save()
-
+        self.request.session['username'] = form.data.get('username')
         return super().form_valid(form)
 
 
 
 def RegisterProfileView(request):
     if request.method == 'POST':
-        form = ProfileForm(request.POST)
+        form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            deathuser = Eduser(
-                username = form.username,
-                useremail = form.useremail,
-                password = make_password(form.password)
-            )
-            deathuser.save()
+            eduser = Eduser.objects.get(username= request.session['username'])
+            eduser.profile_img.upload_to = ""
+            print(request.FILES)
+            # eduser.save(profile_img = request.FILES['profile_img'])
             return redirect('/')
     else:
-        form = RegisterForm()
-    return render(request, 'register.html', {'form': form})
+        form = ProfileForm()
+    return render(request, 'EDuser/register_profile.html', {'form': form})
 
 
 class LoginView(FormView):
@@ -50,11 +45,11 @@ class LoginView(FormView):
     success_url = "/"
 
     def form_valid(self, form):
-        self.request.session["user"] = form.data.get("email")
+        self.request.session["username"] = form.data.get("username")
         return super().form_valid(form)
 
 
 def logout(request):
-    if "user" in request.session:
-        del request.session["user"]
+    if "username" in request.session:
+        del request.session["username"]
     return redirect("/")
