@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import showIndex
-from EDuser.views import RegisterView,RegisterProfileView, LoginView, logout
+from EDuser.views import RegisterView,RegisterProfileView,toRegisterProfile, LoginView, logout
 
 
 
@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', showIndex),
     path('register/', RegisterView.as_view(), name='register'),
+    path('toRegisterProfile/',toRegisterProfile),
     path('registerProfile/',RegisterProfileView),
     path('login/', LoginView.as_view(),name='login'),
     path('logout/', logout, name='logout')
