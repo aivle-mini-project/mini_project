@@ -1,13 +1,22 @@
-{% extends 'base/base.html' %} 
-{% block contents %}
-이것은 홈페이지<br>
+{% extends 'base/base.html' %}
 
+{% block contents %}
 {% if username %}
 {{ username }}님, 안녕하세요
 <a href="{% url 'logout' %}">로그아웃</a>
 {% else %}
-<a href="{% url 'register' %}">회원가입</a>
-<a href="{% url 'login' %}">로그인</a>
+<!-- ======= Title Section ======= -->
+<section id="Title">
+    <div class="title-content" data-aos="fade-up">
+        <h1 class="t1"> 당신의 감정을 분석하고, 사람들과 공유하세요 </h1>
+        <h1 class="name">이모틱스</h1>
+        <h2 class="t2">Emo-tics</h2>
+        <div>
+            <a href="{% url 'login' %}" class="btn-login scrollto">로그인</a>
+            <a href="{% url 'register' %}" class="btn-register scrollto">회원가입</a>
+        </div>
+    </div>
+</section><!-- End Hero Section -->
 {% endif %}
 
 {% endblock contents %}
