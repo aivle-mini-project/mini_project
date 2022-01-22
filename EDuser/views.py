@@ -11,7 +11,7 @@ from .forms import RegisterForm, ProfileForm, LoginForm
 class RegisterView(FormView):
     template_name = "EDuser/register.html"
     form_class = RegisterForm
-    success_url = "/toResiterProfile"
+    success_url = "/toRegisterProfile"
 
     def form_valid(self, form):
         eduser = Eduser(
@@ -25,17 +25,18 @@ class RegisterView(FormView):
 
 
 def toRegisterProfile(request):
-    return redirect("EDuser/register_profile")
+    return redirect("/registerProfile")
 
 
 def RegisterProfileView(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            # eduser = Eduser.objects.get(username= request.session['username'])
-            # eduser.profile_img.upload_to = ""
-            # print(request.FILES)
-            # eduser.save(profile_img = request.FILES['profile_img'])
+            eduser = Eduser.objects.get(username= request.session['username'])
+            print(form.cleaned_data['profile_img'])
+            eduser.profile_img = form.cleaned_data['profile_img']
+            print(eduser.profile_img.name)
+            eduser.save()
             return redirect('/')
     else:
         form = ProfileForm()

@@ -10,11 +10,11 @@
   <meta name="author" content="" />
   <title>Dashboard - SB Admin</title>
   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-
+  <link href="{% static 'css/default.css' %}" rel="stylesheet">
   <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
-    crossorigin="anonymous"></script>
-
+  crossorigin="anonymous"></script>
+  
   <!-- Vendor CSS Files -->
   <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
   <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -22,9 +22,11 @@
   <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
-
+  
   <!-- GoogleFonts-->
   <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch&display=swap" rel="stylesheet">
+  {% block head %}
+  {% endblock head %}
 </head>
 
 <body class="sb-nav-fixed">
