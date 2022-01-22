@@ -1,9 +1,58 @@
 {% extends 'base/base.html' %}
+{% block head %}
+<style>
+    main {
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+        align-items:center;
+        margin-top:auto;
+        margin-bottom:auto;
+    }
+    .title {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    form {
+        display:flex;
+        justify-content:center;
+        flex-wrap :wrap;
+        width: 40%;
+    }
+    .form-group {
+        display:flex;
+        justify-content:center; 
+        width: 80%;
+        height:40px;
+        margin-top:15px;
+        margin-bottom:15px;
+    }
 
+
+</style>
+{% endblock head %}
 {% block contents %}
-<form method = "post">
+<div class="title">
+    <h1>프로필 사진을 넣으세요</h1>
+
+</div>
+<form method = "post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">회원가입</button>
+    
+    {% for field in form %}
+    <div class="form-group mb-3">
+        <input type="{{ field.field.widget.input_type}}" class="form-control" id="{{ field.id_for_label }}"
+         placeholder="{{ field.label }}" name="{{ field.name }}"/>
+    </div>
+    {% if field.errors %}
+    <span style="color: red;"> {{ field.errors }}</span>
+    {% endif %}
+    {% endfor %}
+    <div class="button-container">
+        <button type="submit" class="btn btn-secondary">프로필사진등록</button>
+        <a href="{% url 'home' %}"><div class="btn btn-secondary">건너뛰기</div></a>
+    </div>
 </form>
 {% endblock contents %}

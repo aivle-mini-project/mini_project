@@ -1,3 +1,4 @@
+from unittest.util import _count_diff_hashable
 from django import forms
 from .models import Eduser
 from django.contrib.auth.hashers import check_password
@@ -39,6 +40,9 @@ class RegisterForm(forms.Form):
 class ProfileForm(forms.Form):
     profile_img = forms.ImageField(required=False,)
 
+    def clean(self):
+        cleaned_data = super().clean()
+        profile_img = cleaned_data.get('profile_img')
 
 
 class LoginForm(forms.Form):
