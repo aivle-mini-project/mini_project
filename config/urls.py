@@ -19,6 +19,8 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
+from boardAPI.views import DiaryListAPI
+
 from .views import showIndex
 from EDuser.views import RegisterView,RegisterProfileView,toRegisterProfile, LoginView, logout
 
@@ -30,7 +32,8 @@ urlpatterns = [
     path('toRegisterProfile/',toRegisterProfile),
     path('registerProfile/',RegisterProfileView),
     path('login/', LoginView.as_view(),name='login'),
-    path('logout/', logout, name='logout')
+    path('logout/', logout, name='logout'),
+    path('api/diary', DiaryListAPI.as_view())
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

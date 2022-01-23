@@ -2,14 +2,13 @@ from tabnanny import verbose
 from django.db import models
 
 # Create your models here.
-class Stastics:
+class Stastics(models.Model):
   register_date = models.DateField()
   good = models.IntegerField()
   bad = models.IntegerField()
   emotion1 = models.IntegerField()
   emotion2 = models.IntegerField()
   emotion3 = models.IntegerField()
-  emotion4 = models.IntegerField()
 
   class Meta:
     db_table='stastics'
