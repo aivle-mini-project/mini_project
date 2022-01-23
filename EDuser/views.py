@@ -6,6 +6,7 @@ from django.views.generic import FormView
 from .models import Eduser
 from .forms import RegisterForm, ProfileForm, LoginForm
 
+from .decorator import login_required
 # Create your views here.
 
 class RegisterView(FormView):
@@ -27,7 +28,7 @@ class RegisterView(FormView):
 def toRegisterProfile(request):
     return redirect("/registerProfile")
 
-
+@login_required
 def RegisterProfileView(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES)
