@@ -52,7 +52,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'EDuser',
     'diary',
-    'bootstrap4'
+    'board',
+    'bootstrap4',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
