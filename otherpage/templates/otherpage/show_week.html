@@ -8,23 +8,23 @@
 {% block contents %}
 <div id="Container">
     <section id="Title-section">
-        <h2>다른 사람들의 기분 통계를 확인해보세요 </h2>
+        <h2>일주일간 기분 추이를 확인해보세요 </h2>
     </section>
     <section id="Date-section">
         <div class = "pp">
-            날짜를 선택해 요일별 통계를 확인할 수 있습니다.
+            선택 날짜를 기준으로 7일간 통계를 제공합니다.
         </div>
         <div class = "datepicker">
-            <input type="text" id="datePicker" class="form-control py-2 px-2" value="2022-01-24">
+            <input type="text" id="datePicker" class="form-control py-2 px-2" value={{today.year}}-{{today.month}}-{{today.day}}>
         </div>
     </section>
     <section id="Content-section">
         <div id = "date-title">
-            {{today.year}}년 {{today.month}}월 {{today.day}}일
+            {{data.6.emo_date.year}}년 {{data.6.emo_date.month}}월{{data.6.emo_date.day}}일 -  {{today.year}}년 {{today.month}}월 {{today.day}}일
         </div>
         <div class="col-lg-6">
             <div class="card mb-4">
-                <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas></div>
+                <div class="card-body"><canvas id="week_Chart" width="100%" height="50"></canvas></div>
             </div>
         </div>
     </section>
@@ -56,16 +56,15 @@
     let s_data = [
         {% for item in data %}
         {
-            emo_date: "{{ item.emo_date }}",
+            emo_date: "{{ item.emo_date.month }}월 {{ item.emo_date.day }}일",
             positive: {{ item.positive }},
             neutral: {{ item.neutral }},
             negative: {{ item.negative }},
         },
         {% endfor %}
     ]
-    console.log({s_data})
 </script>
-<script src="{% static 'js/other/statistics-pie.js'%}"></script>
+<script src="{% static 'js/other/statistics-line.js'%}"></script>
 <script>
     const csrftoken = getCookie('csrftoken');
 	$(function() {
@@ -82,7 +81,7 @@
 		}).on("changeDate", function(e){
             const data2 = { 'select_data': e.format()};
             const data = axios({
-                url: '/other/show/',
+                url: '/other/show_week/',
                 method: 'post',
                 data: JSON.stringify(data2),
                 headers: {
@@ -91,13 +90,28 @@
                 }
             });
             data.then(function (result) {
+                week_Chart.labels =[];
+                for(let i = 0; i < 3; i++){
+                    week_Chart.data.datasets[i].data = [];
+                }
+                for(let i = 6; i > -1; i--){
+                    for(let j = 0; j < 3; j++){
+                        if(j === 0)
+                            week_Chart.data.datasets[j].data.push(result.data[i].positive);
+                        else if(j ===1)
+                            week_Chart.data.datasets[j].data.push(result.data[i].neutral);
+                        else
+                            week_Chart.data.datasets[j].data.push(result.data[i].negative);
+                    }
+                    week_Chart.labels.push(result.data[i].emo_date)
+                }
+                
                 datelook = result.data[0].emo_date.split('-')
-                document.getElementById('date-title').innerHTML = Number(datelook[0])+ "년 "+ Number(datelook[1])+ "월 " +Number(datelook[2])+ "일 "
-                myChart.data.datasets[0].data = [result.data[0].negative, result.data[0].neutral, result.data[0].positive];
-                myChart.update()
+                datelook_2 = result.data[6].emo_date.split('-')
+                document.getElementById('date-title').innerHTML = Number(datelook_2[0])+ "년 "+ Number(datelook_2[1])+ "월 " +Number(datelook_2[2])+ "일" + " - " + Number(datelook[0])+ "년 "+ Number(datelook[1])+ "월 " +Number(datelook[2])+ "일"
+                week_Chart.update()
             });
         })
 	})
 </script>
-
 {% endblock script_section %}
