@@ -5,7 +5,7 @@
     
 <!DOCTYPE html>
 <style>
-    #input1{
+    #write{
         width: 300px;
         height: 50px;
         border-top: none;
@@ -23,17 +23,30 @@
     }
 </style>
 <section id="Title">
-    <div class="title-content" data-aos="fade-up">
+    <div class="title-content" data-aos="fade-up" >
         <h1 class="name"> 감정 일기 써 봐라 </h1>
         <br>
         <div>
-            <form  action="{% url 'diary:create' %}"  method="POST">
+            <form  action="/diary/detail/"  method="POST">
                 {% csrf_token %}
-                {% include "form_errors.html" %}
-                <input id = "input1" type = "text" name = 'input1' placeholder="입력해주세요! "
-                    value="{{ form.input1.value | default_if_none:'' }}">
-                
+                {% comment %} <label for="name">일기</label> {% endcomment %}
+                <input id = "write" type = "text" name = "write" placeholder="입력해주세요! " 
+                    value="{{ form.write.value | default_if_none:'' }}">
+
                 <input id = 'input2' type = "submit"/>
+                <br>
+                <br>
+                <br>
+                {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                    {% for field in form %}
+                        {% if field.errors %}
+                        <strong>{{ field.label }}</strong>
+                        {{ field.errors }}
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% endif %}
             </form> 
         </div>
     </div>

@@ -6,5 +6,5 @@ class DiaryForm(forms.ModelForm):
         fields = ['write'] # id 속성은 PK 이므로 사용하지 않음
 
         labels = { # fields에 명시된 속성만 사용
-        'write': '일기'
+        'write': '일기의'
         }
