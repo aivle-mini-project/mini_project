@@ -11,6 +11,7 @@ class BoardPagination(PageNumberPagination):
 
 class DiaryListAPI(generics.GenericAPIView, mixins.ListModelMixin):
     serializer_class = DiarySerializer
+    pagination_class = BoardPagination
 
     def get_queryset(self):
         return Diary.objects.all().order_by('id')

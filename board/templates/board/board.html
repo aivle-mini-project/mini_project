@@ -42,7 +42,7 @@ function scrollEvent(e) {
   if((window.innerHeight + window.scrollY-125) >= main.offsetHeight) { 
     setTimeout(function(){
       renderPage(page)
-    }, 1000)  
+    }, 10)  
   } 
 }
 window.addEventListener('scroll', scrollEvent)
