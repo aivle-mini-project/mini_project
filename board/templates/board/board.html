@@ -20,11 +20,13 @@ function renderPage(pages){
       const main = document.querySelector('main')
       item.innerHTML =(`
         <div>${JSON.stringify(result.results[i].id)}</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        
       `)
       main.append(item)
       console.log(item)
     }
+  })
+  .catch((error) => {
+    window.removeEventListener('scroll', scrollEvent)
   })
   page +=1
 }
@@ -32,14 +34,18 @@ const main = document.querySelector('main')
 
 let test = 0
 
-window.onscroll = function(e) {
-  if((window.innerHeight + window.scrollY-60) >= main.offsetHeight) { 
-    test+=document.body.offsetHeight
+console.log((window.innerHeight + window.scrollY-120),  main.offsetHeight)
+
+
+function scrollEvent(e) {
+  console.log((window.innerHeight + window.scrollY-125),  main.offsetHeight)
+  if((window.innerHeight + window.scrollY-125) >= main.offsetHeight) { 
     setTimeout(function(){
       renderPage(page)
     }, 1000)  
-  }
+  } 
 }
+window.addEventListener('scroll', scrollEvent)
 </script>
 {% endblock script_section %}
 

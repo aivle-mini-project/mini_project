@@ -20,12 +20,12 @@ class Diary(models.Model):
     verbose_name_plural = '일기'
 
   def __str__(self):
-    return self.name
+    return str(self.writer)
 
     
 
 class DiaryDetail(models.Model):
-  diary = models.ForeignKey(Diary, on_delete= models.CASCADE)
+  diary = models.ForeignKey(Diary, on_delete= models.CASCADE, verbose_name='writer')
   write = models.TextField(verbose_name='일기')
   emotion = models.CharField(max_length =30,verbose_name='감정')
   neutral = models.FloatField(verbose_name='평온')
@@ -38,12 +38,12 @@ class DiaryDetail(models.Model):
     verbose_name_plural = '일기상세'
 
   def __str__(self):
-    return self.name
+    return str(self.diary.writer)
 
 
 
 class DiaryDetailHighlight(models.Model):
-  diary_detail = models.ForeignKey(DiaryDetail, on_delete= models.CASCADE)
+  diary_detail = models.ForeignKey(DiaryDetail, on_delete= models.CASCADE, verbose_name='writer')
   offset = models.IntegerField(verbose_name='시작점')
   length = models.IntegerField(verbose_name='길이')
 
@@ -53,7 +53,7 @@ class DiaryDetailHighlight(models.Model):
     verbose_name_plural = '일기상세효과'
   
   def __str__(self):
-    return self.name
+    return str(self.diary_detail.diary.writer)
 
 
 class Expression(models.Model):
