@@ -4,7 +4,7 @@ from EDuser.models import Eduser
 
 class Diary(models.Model):
   writer = models.ForeignKey(Eduser, on_delete=models.SET_NULL, null=True) 
-  write = models.TextField(verbose_name='일기')
+  write = models.TextField(max_length= 10,verbose_name='일기')
   emotion = models.IntegerField(verbose_name='감정')
   register_date = models.DateTimeField(auto_now_add=True, verbose_name='등록날짜')
 

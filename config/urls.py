@@ -35,6 +35,7 @@ urlpatterns = [
     path('logout/', logout, name='logout'),
     path('api/diary', DiaryListAPI.as_view()),
     path('other/', include('otherpage.urls')),
+    path('diary/', include('diary.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

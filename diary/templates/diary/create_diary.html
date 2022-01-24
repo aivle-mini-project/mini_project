@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+
+{% block contents %}
+{% if request.session.username %}
+    
+<!DOCTYPE html>
+<style>
+    #input1{
+        width: 300px;
+        height: 50px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom:  3px solid black;
+    }
+    #input2{
+        width:  100px;
+        height: 55px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom:  3px solid black;
+    }
+</style>
+<section id="Title">
+    <div class="title-content" data-aos="fade-up">
+        <h1 class="name"> 감정 일기 써 봐라 </h1>
+        <br>
+        <div>
+            <form  action="{% url 'diary:create' %}"  method="POST">
+                {% csrf_token %}
+                {% include "form_errors.html" %}
+                <input id = "input1" type = "text" name = 'input1' placeholder="입력해주세요! "
+                    value="{{ form.input1.value | default_if_none:'' }}">
+                
+                <input id = 'input2' type = "submit"/>
+            </form> 
+        </div>
+    </div>
+</section><!-- End Hero Section -->
+
+
+
+{% else %}
+<h1>로그인을 하세요<h1>
+
+{% endif %}
+
+{% endblock contents %}
