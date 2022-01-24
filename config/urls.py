@@ -19,8 +19,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from boardAPI.views import DiaryListAPI
-
 from .views import showIndex
 from EDuser.views import RegisterView, RegisterProfileView, toRegisterProfile, LoginView, logout
 
@@ -33,8 +31,9 @@ urlpatterns = [
     path('registerProfile/', RegisterProfileView, name= 'registerProfile'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', logout, name='logout'),
-    path('api/diary', DiaryListAPI.as_view(), name='boardAPI'),
     path('other/', include('otherpage.urls')),
+    path('boardapi/',include('boardAPI.urls')),
+    path('board/',include('board.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

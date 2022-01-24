@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<button id="btn">다음페이지까지 가져와</button>
+{% endblock content %}
+
+{% block script_section %} 
+<script>
+
+  
+const render_btn = document.querySelector('#btn')
+let page = 1
+renderPage(page)
+function renderPage(pages){
+  fetch(`http://127.0.0.1:8000/boardapi/?page=${pages}`)
+  .then((response) => response.json())
+  .then((result) => {
+    for(let i = 0; i<result.results.length; i++){
+      const item = document.createElement('li')
+      const main = document.querySelector('main')
+      item.innerHTML =(`
+        <div>${JSON.stringify(result.results[i].id)}</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        
+      `)
+      main.append(item)
+      console.log(item)
+    }
+  })
+  page +=1
+}
+const main = document.querySelector('main')
+
+let test = 0
+
+window.onscroll = function(e) {
+  if((window.innerHeight + window.scrollY-60) >= main.offsetHeight) { 
+    test+=document.body.offsetHeight
+    setTimeout(function(){
+      renderPage(page)
+    }, 1000)  
+  }
+}
+</script>
+{% endblock script_section %}
+
+
