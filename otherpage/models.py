@@ -3,7 +3,7 @@ from django.db.models.fields import DateField, FloatField, IntegerField
 
 
 class Statistics(models.Model):
-    id2 = IntegerField(max_length=11, primary_key=True)
+    id2 = IntegerField(primary_key=True)
     emo_date = models.DateField(null=False)
     positive = models.FloatField(default=0, null=True)
     negative = models.FloatField(default=0, null=True)
