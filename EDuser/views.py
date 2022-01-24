@@ -21,6 +21,8 @@ class RegisterView(FormView):
             password=make_password(form.data.get("password")),
         )
         eduser.save()
+        
+        self.request.session['userid'] = eduser.id
         self.request.session['username'] = form.data.get('username')
         return super().form_valid(form)
 
@@ -50,11 +52,15 @@ class LoginView(FormView):
     success_url = "/"
 
     def form_valid(self, form):
+        eduser = Eduser.objects.get(username=form.data.get("username"))
         self.request.session["username"] = form.data.get("username")
+        self.request.session["username"] = eduser.id
+
         return super().form_valid(form)
 
 
 def logout(request):
     if "username" in request.session:
+        del request.session['userid']
         del request.session["username"]
     return redirect("/")
