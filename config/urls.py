@@ -29,11 +29,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', showIndex, name='home'),
     path('register/', RegisterView.as_view(), name='register'),
-    path('toRegisterProfile/', toRegisterProfile),
-    path('registerProfile/', RegisterProfileView),
+    path('toRegisterProfile/', toRegisterProfile, name= 'toRegisterProfile'),
+    path('registerProfile/', RegisterProfileView, name= 'registerProfile'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', logout, name='logout'),
-    path('api/diary', DiaryListAPI.as_view()),
+    path('api/diary', DiaryListAPI.as_view(), name='boardAPI'),
     path('other/', include('otherpage.urls')),
 ]
 
