@@ -53,8 +53,8 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         eduser = Eduser.objects.get(username=form.data.get("username"))
-        self.request.session["username"] = form.data.get("username")
-        self.request.session["username"] = eduser.id
+        self.request.session['userid'] = eduser.id
+        self.request.session['username'] = form.data.get('username')
 
         return super().form_valid(form)
 
