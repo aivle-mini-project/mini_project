@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-import os, json
+import os
+import json
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,9 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-secret_file = os.path.join(BASE_DIR, 'secrets.json') 
+secret_file = os.path.join(BASE_DIR, 'secrets.json')
 with open(secret_file) as f:
-    secrets = json.loads(f.read() )
+    secrets = json.loads(f.read())
+
 
 def get_secret(setting, secrets=secrets):
     try:
@@ -32,6 +34,7 @@ def get_secret(setting, secrets=secrets):
     except KeyError:
         error_msg = "Set the {} environment variable".format(setting)
         raise ImproperlyConfigured(error_msg)
+
 
 SECRET_KEY = get_secret("SECRET_KEY")
 
@@ -54,7 +57,8 @@ INSTALLED_APPS = [
     'diary',
     'board',
     'bootstrap4',
-    'rest_framework'
+    'rest_framework',
+    'otherpage',
 ]
 
 MIDDLEWARE = [
@@ -72,7 +76,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,8 +99,18 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'custom': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Emotics',
+        'USER': 'Emotics',
+        'PASSWORD': 'ETSU1995',
+        'HOST': '15.164.153.191',
+        'PORT': 3306
     }
 }
+
+DATABASE_ROUTERS = ['otherpage.router.DBRouter']
 
 
 # Password validation
@@ -142,7 +156,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 
 MEDIA_ROOT = BASE_DIR / 'media'
