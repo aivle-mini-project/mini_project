@@ -1,13 +1,16 @@
 
 from django.db import models
 from EDuser.models import Eduser
+from .validation import validate_sentence
 
 # Create your models here.
 
 
 class Diary(models.Model):
   writer = models.ForeignKey(Eduser, on_delete=models.SET_NULL, null=True) 
-  write = models.TextField(verbose_name='일기')
+  write = models.TextField(max_length = 100, 
+                          verbose_name='일기', 
+                          validators=[validate_sentence])
   emotion = models.CharField(max_length =30,verbose_name='감정')
   neutral = models.FloatField(verbose_name='평온')
   positive = models.FloatField(verbose_name='긍정')
