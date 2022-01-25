@@ -1,36 +1,137 @@
 {% extends 'base/base.html' %}
 
-{% block content %}
-<button id="btn">다음페이지까지 가져와</button>
-{% endblock content %}
+{% block head %}
+<style>
+  main {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    align-items:center;
+
+  }
+  
+  .diary_container {
+    width: 60%;
+    margin-top:50px;
+  }
+  .diary {
+    width:100%;
+    margin-bottom:50px;
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 10px
+  }
+  
+</style>
+{% endblock head %}
+
+{% block contents %}
+<p class='username' style='display:none'>{{ username }}</p>
+<p class='liked' style='display:none'>{% for like in liked %}{{ like.diary.id }} {% endfor %}
+{% endblock contents %}
+
+
 
 {% block script_section %} 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-
-  
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
 const render_btn = document.querySelector('#btn')
+const container = document.createElement('div')
+const main = document.querySelector('main')
+const liked = (document.querySelector('.liked').innerHTML).split(' ')
+liked.pop()
+const liked1 = liked.map(x => parseInt(x))
+console.log(liked)
+
+const username = document.querySelector('.username').innerHTML
+
+
+container.className = 'diary_container';
+main.append(container)
+
+
 let page = 1
+let int = 1
 renderPage(page)
 function renderPage(pages){
   fetch(`http://127.0.0.1:8000/boardapi/?page=${pages}`)
   .then((response) => response.json())
   .then((result) => {
     for(let i = 0; i<result.results.length; i++){
-      const item = document.createElement('li')
-      const main = document.querySelector('main')
+      const item = document.createElement('div')
+      item.className = 'diary';
       item.innerHTML =(`
-        <div>${JSON.stringify(result.results[i].id)}</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <div class="diary_item">작성자 : ${JSON.stringify(result.results[i].writer)}<hr></div>
+        <div class="diary_item">일기 : ${JSON.stringify(result.results[i].write)}<hr></div>
+        <div class="diary_item">감정 : ${JSON.stringify(result.results[i].emotion)}<hr></div>
+        <div class="diary_item">중립 : ${JSON.stringify(result.results[i].neutral)}<hr></div>
+        <div class="diary_item">긍정 : ${JSON.stringify(result.results[i].positive)}<hr></div>
+        <div class="diary_item">부정 : ${JSON.stringify(result.results[i].negative)}<hr></div>
+        <div class="diary_item">작성일 : ${JSON.stringify(result.results[i].register_date).substring(1,11)}<hr></div>
       `)
-      main.append(item)
-      console.log(item)
+      
+      if (liked1.indexOf(result.results[i].id)+1) {
+        item.innerHTML +=(`
+          <div class="diary_item expression${result.results[i].id}" style="color:red">좋아요 : ${JSON.stringify(result.results[i].expressions.length)}<hr></div>
+        `)  
+        container.append(item)
+        let expression = document.querySelector(`.expression${result.results[i].id}`)
+        expression.addEventListener('click', ()=> {alert('이미 좋아요 누르셨습니다.')})
+
+      } else {
+        item.innerHTML +=(`
+          <div class="diary_item expression${result.results[i].id}">좋아요 : ${JSON.stringify(result.results[i].expressions.length)}<hr></div>
+        `)  
+        container.append(item)
+        let expression = document.querySelector(`.expression${result.results[i].id}`)
+        expression.addEventListener('click', ()=> {
+          const csrftoken = getCookie('csrftoken');
+          const data = {
+            'username':username,
+            'diary_id':(result.results[i].id)
+          }
+          const ajax = axios({
+            url: '/boardapi/expressionPost/',
+            method: 'post',
+            data: JSON.stringify(data),
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': csrftoken
+            }});
+          ajax.then(function (result) {
+            console.log(result.data);
+          }); 
+          expression.addEventListener('click', ()=> {alert('이미 좋아요 누르셨습니다.')})
+          expression.style.color = 'red'
+          expression.innerHTML = '좋아요 : ' + String(parseInt(expression.innerHTML.substring(5,))+1)+ '<hr>'
+        }, {once:true})
+      }
     }
   })
   .catch((error) => {
     window.removeEventListener('scroll', scrollEvent)
+    const item = document.createElement('div')
+    item.innerHTML =(`
+    <div>마지막 글입니다.</div>
+  `)
+  container.append(item)
   })
   page +=1
 }
-const main = document.querySelector('main')
 
 let test = 0
 
@@ -42,11 +143,11 @@ function scrollEvent(e) {
   if((window.innerHeight + window.scrollY-125) >= main.offsetHeight) { 
     setTimeout(function(){
       renderPage(page)
-    }, 10)  
+    }, 100)  
   } 
 }
 window.addEventListener('scroll', scrollEvent)
 </script>
-{% endblock script_section %}
 
+{% endblock script_section%}
 
