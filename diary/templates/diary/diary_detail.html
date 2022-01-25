@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+{%load diary_format %}
+{% block contents %}
+{% if request.session.username %}
+
+<body>
+    <h1>결과</h1>
+    <hr>
+    <h3>감정결과</h3>
+    <p>{{ document.sentiment }} 
+      
+    <h3>리스트</h3>
+
+    {% for sentence in sentences %}
+    <li>문장 : {{ sentence.content }}, 상태: {{ sentence.sentiment| show}}</li>
+    <li>부정: {{sentence.confidence.negative}}, 긍정:  {{sentence.confidence.positive}}, 평온:  {{sentence.confidence.neutral}}</li>
+        {% for highlight in sentence.highlights %}
+        <li>offset : {{highlight.offset}}, length:  {{highlight.length}}</li>
+        {% endfor %}
+    {% endfor %}
+
+
+</body>
+ {% else %}
+<!-- ======= Title Section ======= -->
+<h1>로그인을 하세요2<h1>
+{% endif %}
+
+{% endblock contents %}
