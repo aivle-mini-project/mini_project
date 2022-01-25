@@ -59,11 +59,8 @@ INSTALLED_APPS = [
     'bootstrap4',
     'rest_framework',
     'otherpage',
-<<<<<<< HEAD
     'mypage',
-=======
     'calpage',
->>>>>>> 17477590042ff7a7416c76a4536196476230455b
 ]
 
 MIDDLEWARE = [
@@ -110,7 +107,7 @@ DATABASES = {
         'NAME': 'Emotics',
         'USER': 'Emotics',
         'PASSWORD': 'ETSU1995',
-        'HOST': '15.164.153.191',
+        'HOST': '13.125.52.234',
         'PORT': 3306
     }
 }

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from sqlalchemy import true
 from otherpage.models import Statistics
+from diary.models import Diary, DiaryDetail, DiaryDetailHighlight
 from datetime import date, datetime, timedelta
 from django.forms.models import model_to_dict
 import json
@@ -36,6 +37,43 @@ def show_date(request):
             emo_date__year=today.year, emo_date__month=today.month, emo_date__day=today.day)
     return render(
         request, 'otherpage/show_date.html',
+        {'data': data,
+         'today': today}
+    )
+
+
+def show_date_keyword(request):
+    today = date.today()
+
+    temp_data = Diary.objects.filter(
+        register_date__year=today.year, register_date__month=today.month, register_date__day=today.day)
+    for item in temp_data:
+        temp_data2 = item.diarydetail_set.all()
+
+    # 날짜 선택 시
+    if request.method == 'POST':
+        select_date = json.loads(request.body.decode("utf-8"))
+        strpdate = datetime.strptime(select_date['select_data'], "%Y-%m-%d")
+        data = Statistics.objects.filter(
+            emo_date__year=strpdate.year, emo_date__month=strpdate.month, emo_date__day=strpdate.day)
+        json_data = []
+        # 해당 날짜에 DB값이 없을 때,
+        if(len(data) == 0):
+            json_data.append({
+                'emo_date': select_date['select_data'],
+                'positive': 0,
+                'neutral': 0,
+                'negative': 0,
+            })
+        for item in data:
+            json_data.append(model_to_dict(item))
+
+        return JsonResponse(json_data, safe=False)
+    else:
+        data = Statistics.objects.filter(
+            emo_date__year=today.year, emo_date__month=today.month, emo_date__day=today.day)
+    return render(
+        request, 'otherpage/show_date_keyword.html',
         {'data': data,
          'today': today}
     )

@@ -27,20 +27,17 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', showIndex, name='home'),
     path('register/', RegisterView.as_view(), name='register'),
-    path('toRegisterProfile/', toRegisterProfile, name= 'toRegisterProfile'),
-    path('registerProfile/', RegisterProfileView, name= 'registerProfile'),
+    path('toRegisterProfile/', toRegisterProfile, name='toRegisterProfile'),
+    path('registerProfile/', RegisterProfileView, name='registerProfile'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', logout, name='logout'),
     path('other/', include('otherpage.urls')),
     path('calpage/', Cal),
-    path('boardapi/',include('boardAPI.urls')),
-    path('board/',include('board.urls')),
-    path('diary/',include('diary.urls')),
-<<<<<<< HEAD
+    path('boardapi/', include('boardAPI.urls')),
+    path('board/', include('board.urls')),
+    path('diary/', include('diary.urls')),
     path('mypage/', include('mypage.urls')),
-=======
 
->>>>>>> 17477590042ff7a7416c76a4536196476230455b
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

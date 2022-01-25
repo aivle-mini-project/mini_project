@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
-{% block head %}
 {% load static %}
+{% block head %}
 <link href="{% static 'css/cal/main.css' %}" rel="stylesheet">
 {% endblock head %}
 {% block contents %}
@@ -18,9 +18,9 @@
                 <span class="month"></span>월
             </div>
             <div class="calendar_nav">
-                <button class="nav-btn go-prev">&lt;</button>
+                <div id="nav-back">&lt;</div>
                 <button class="nav-btn go-today" onclick="Today()">오늘</button>
-                <button class="nav-btn go-next" onclick="nextMonth()">&gt;</button>
+                <div id="nav-go">&gt;</div>
                 
             </div>
         </div>
@@ -61,8 +61,14 @@
         </div>
     </div>
 </form>
-
-<script>
-    console.log("ff")
-</script>
 {% endblock contents %}
+{% block script_section %}
+<script>
+    document.querySelector('#nav-go').addEventListener('click', ()=>{
+        nextMonth()
+    });
+    document.querySelector('#nav-back').addEventListener('click', ()=>{
+        prevMonth()
+    });
+</script>
+{% endblock script_section %}

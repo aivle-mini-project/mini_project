@@ -1,7 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% block head %}
-<link href="{% static 'css/other/feelpage.css' %}" rel="stylesheet">
 <link href="{% static 'css/other/home.css' %}" rel="stylesheet">
 <link href="{% static 'css/other/bootstrap-datepicker.css' %}" rel="stylesheet">
 {% endblock head %}
@@ -9,11 +8,11 @@
 {% block contents %}
 <div id="Container">
     <section id="Title-section">
-        다른 사람들의 기분 통계를 확인해보세요
+        다른 사람들의 키워드 통계를 확인해보세요
     </section>
     <section id="Nav-section">
-        <div class = "now">기분</div>
-        <a href="{% url 'otherpage:date_keyword' %}" class="notnow">키워드</a>
+        <a href="{% url 'otherpage:date' %}" class="notnow">기분</a>
+        <div class="now">키워드</div>
     </section>
     <section id="Date-section">
         <div class = "pp">
@@ -86,7 +85,7 @@
 		}).on("changeDate", function(e){
             const data2 = { 'select_data': e.format()};
             const data = axios({
-                url: '/other/show_date/',
+                url: '/other/show_date/keyword',
                 method: 'post',
                 data: JSON.stringify(data2),
                 headers: {
