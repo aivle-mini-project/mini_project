@@ -21,20 +21,23 @@ from django.conf.urls.static import static
 
 from .views import showIndex
 from EDuser.views import RegisterView, RegisterProfileView, toRegisterProfile, LoginView, logout
-
+from calpage.views import Cal
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', showIndex, name='home'),
     path('register/', RegisterView.as_view(), name='register'),
-    path('toRegisterProfile/', toRegisterProfile, name= 'toRegisterProfile'),
-    path('registerProfile/', RegisterProfileView, name= 'registerProfile'),
+    path('toRegisterProfile/', toRegisterProfile, name='toRegisterProfile'),
+    path('registerProfile/', RegisterProfileView, name='registerProfile'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', logout, name='logout'),
     path('other/', include('otherpage.urls')),
-    path('boardapi/',include('boardAPI.urls')),
-    path('board/',include('board.urls')),
-    path('diary/',include('diary.urls')),
+    path('calpage/', Cal),
+    path('boardapi/', include('boardAPI.urls')),
+    path('board/', include('board.urls')),
+    path('diary/', include('diary.urls')),
+    path('mypage/', include('mypage.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,68 @@
+{% extends 'base/base.html' %}
+{% block head %}
+{% load static %}
+<link href="{% static 'css/cal/main.css' %}" rel="stylesheet">
+{% endblock head %}
+{% block contents %}
+<form method = "post" >
+    {% csrf_token %}
+    <div class="main">
+        <div class = title>
+            <h2>자신의 감정을 살펴보세요 </h2>
+            <hr>
+        </div>
+
+        <div class="calendar_header">
+            <div class="ym-wrapper">
+                <span class="year"></span>년
+                <span class="month"></span>월
+            </div>
+            <div class="calendar_nav">
+                <button class="nav-btn go-prev">&lt;</button>
+                <button class="nav-btn go-today" onclick="Today()">오늘</button>
+                <button class="nav-btn go-next" onclick="nextMonth()">&gt;</button>
+                
+            </div>
+        </div>
+        <div class="calendar_main">
+            <div class="days">
+                <div class="day">일</div>
+                <div class="day">월</div>
+                <div class="day">화</div>
+                <div class="day">수</div>
+                <div class="day">목</div>
+                <div class="day">금</div>
+                <div class="day">토</div>
+                
+            </div>
+            <div class="dates"></div>
+        </div>
+
+    </div>
+
+    {% load static %}
+    <script type="text/javascript" src="{% static 'js/cal/calendar.js' %}"></script>
+ 
+    <!-- 하단에 이모티콘과 문장 목록 출력 -->
+    <div class="resv-wrapper">
+        <div class="resv-bg">
+            <div class="resv_info">
+                <div class="resv_ym">
+                    <div id = "date-title">
+                         
+                                              
+                        {%for item in data%}
+                            {{item.id}} / {{item.write}} />
+                        {% endfor %}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    console.log("ff")
+</script>
+{% endblock contents %}
