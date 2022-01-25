@@ -13,6 +13,7 @@
         <title> 마이페이지 </title>
     </head>
     <body>
+        <center>
         <br>
             <h1> 마이페이지 </h1>
         <br>
@@ -23,8 +24,7 @@
         <br>
             <span class='likediary'>
             <p>좋아하는 게시물</p>
-            {% for expression in expressions %}
-        
+            {% for expression in expressions %} 
                 <table border='1'>
                     <tr>
                         <th><dt><b>writer</b></dt></th>
@@ -55,6 +55,7 @@
                 </table>
                 <br>
             {% endfor %}
+            </center>
             </span>
         </div>
     </body>

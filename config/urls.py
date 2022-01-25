@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 from .views import showIndex
 from EDuser.views import RegisterView, RegisterProfileView, toRegisterProfile, LoginView, logout
-
+from calpage.views import Cal
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,10 +32,15 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', logout, name='logout'),
     path('other/', include('otherpage.urls')),
+    path('calpage/', Cal),
     path('boardapi/',include('boardAPI.urls')),
     path('board/',include('board.urls')),
     path('diary/',include('diary.urls')),
+<<<<<<< HEAD
     path('mypage/', include('mypage.urls')),
+=======
+
+>>>>>>> 17477590042ff7a7416c76a4536196476230455b
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

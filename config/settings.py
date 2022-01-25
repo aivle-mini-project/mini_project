@@ -59,7 +59,11 @@ INSTALLED_APPS = [
     'bootstrap4',
     'rest_framework',
     'otherpage',
+<<<<<<< HEAD
     'mypage',
+=======
+    'calpage',
+>>>>>>> 17477590042ff7a7416c76a4536196476230455b
 ]
 
 MIDDLEWARE = [
