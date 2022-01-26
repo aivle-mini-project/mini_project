@@ -90,7 +90,7 @@ function renderPage(pages){
         `)  
         container.append(item)
         let expression = document.querySelector(`.expression${result.results[i].id}`)
-        expression.addEventListener('click', ()=> {alert('이미 좋아요 누르셨습니다.')})
+        expression.addEventListener('click', ()=> {alert('좋아요는 한번만 가능합니다.')})
 
       } else {
         item.innerHTML +=(`
@@ -132,6 +132,7 @@ function renderPage(pages){
   })
   page +=1
 }
+
 
 let test = 0
 

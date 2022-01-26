@@ -26,8 +26,13 @@ class DiaryListAPI(generics.GenericAPIView, mixins.ListModelMixin):
 
 @csrf_exempt
 def req_json(request):
-    obj = request.body.decode("utf-8")
-    data = json.loads(obj)
-    print(data['username'])
-    Expression.objects.create(user=Eduser.objects.get(username=data['username']),diary=Diary.objects.get(pk=data['diary_id']))
+    if request.method == 'POST':
+        obj = request.body.decode("utf-8")
+        data = json.loads(obj)
+        print(data['username'])
+        Expression.objects.create(user=Eduser.objects.get(username=data['username']),diary=Diary.objects.get(pk=data['diary_id']))
+    if request.method == 'DELETE':
+        obj = request.body.decode("utf-8")
+        data = json.loads(obj)
+        Expression.objects.get(user=Eduser.objects.get(username=data['username']),diary=Diary.objects.get(pk=data['diary_id'])).delete()
     return JsonResponse(data)

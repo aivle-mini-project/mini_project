@@ -10,5 +10,5 @@ def boardView(request):
     context = {'username': request.session['username'], 'liked':liked}
     return render(request, 'board/board.html', context)
   except:
-      return render(request, 'board/board.html')
+    return render(request, 'board/board.html')
 
