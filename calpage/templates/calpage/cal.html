@@ -53,24 +53,23 @@
 
     <!-- 하단에 이모티콘과 문장 목록 출력 -->
     <div class="resv-wrapper">
-        <div class="emo_info">
+        <div class="emo_info" id = "mon">
             {%for item in data%}
                 <br>
-                작성날짜 : {{item.write}}
-                {% if item.emotion == "0" %}
+                작성된 날짜 : {{item.id}} | 
+                {% if item.positive > item.negative and item.positive > item.neutral %}
                     그날의 기분 : 😀
-                {% endif %}
-                {% if item.emotion == "1" %}
+                {% elif item.negative > item.positive and item.negative > item.neutral%}
+                    그날의 기분 : 😥
+                {% else %}
                     그날의 기분 : 😐
                 {% endif %}
-                {% if item.emotion == "2" %}
-                    그날의 기분 : 😥
-                {% endif %}
-                그날의 일기 :{{item.write}}
+                | 그날의 일기 : {{item.write}}
                 <br>
             {% endfor %}
         </div>
     </div>
+    
 </form>
 {% endblock contents %}
 {% block script_section %}
