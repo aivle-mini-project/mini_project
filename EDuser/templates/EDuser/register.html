@@ -45,20 +45,69 @@
 </style>
 {% endblock head %}
 {% block contents %}
-<form method = "post" >
+<form id="registerForm"method = "post" >
     {% csrf_token %}
     {% for field in form %}
-    <div class="form-group" >
+    <div class="form-group {{ field.id_for_label }}" >
         <div class="label">{{ field.label }}</div>
         {% comment %} <label for="{{ field.id_for_label }}">{{ field.label }}</label> {% endcomment %}
         <input type="{{ field.field.widget.input_type}}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.name }}"/>
     </div>
     {% if field.errors %}
-    <span style="color: red;"> {{ field.errors }}</span>
-    {% endif %}
+        <span style="color: red;"> {{ field.errors }}</span>
+    {% endif %} 
     {% endfor %}
+
+    <span class="error_message" style="color: red;"></span>
     <div class="btn-container">
         <button class="btn btn-secondary" type="submit">회원가입</button>
     </div>
 </form>
 {% endblock contents %}
+
+
+{% block script_section %}
+<script>
+    let username = document.querySelector('#id_username')
+    let email = document.querySelector('#id_email')
+    let password = document.querySelector('#id_password')
+    let re_password = document.querySelector('#id_re_password')
+
+
+    let usernameClass = document.querySelector('.id_username')
+    let error_message = document.querySelector('.error_message')
+    const registerForm =document.querySelector('#registerForm')
+    let usernameRe = /^[a-z]+[a-z0-9]{5,19}$/g
+    let passRe = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+    let EmailRe = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+    console.log(error_message)
+    registerForm.addEventListener('submit', function(e) {
+        if (username.value.length ==0 ){
+            e.preventDefault()
+            error_message.innerHTML = '아이디를 입력하세요.'
+        } else if (!usernameRe.test(username.value)){
+            e.preventDefault()
+            error_message.innerHTML = '영어와 숫자를 조합하여 6~12 글자로 아이디를 입력하세요.'
+        } else if (email.value.length==0) {
+            e.preventDefault()
+            error_message.innerHTML = '이메일을 입력하세요.'
+        } else if (!EmailRe.test(email.value)) {
+            e.preventDefault()
+            error_message.innerHTML = '이메일을 양식에 맞게 입력하세요.'
+        } else if (password.value.length==0) {
+            e.preventDefault()
+            error_message.innerHTML = '비밀번호를 입력하세요.'
+        } else if (!passRe.test(password.value)) {
+            e.preventDefault()
+            error_message.innerHTML = '영어와 숫자, 특수문자를 조합하여 8~16 글자로 비밀번호를 입력하세요.'
+        } else if (password.value != re_password.value) {
+            e.preventDefault()
+            error_message.innerHTML = '비밀번호 재입력을 확인하세요'
+        }
+    })
+
+</script>
+
+
+{% endblock script_section %}

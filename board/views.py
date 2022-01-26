@@ -1,9 +1,14 @@
 from django.shortcuts import render
+from EDuser.models import Eduser
 
 # Create your views here.
 
 def boardView(request):
-  return render(request, 'board/board.html')
+  try :
+    user = Eduser.objects.get(username = request.session['username'])
+    liked = user.expression_set.all()
+    context = {'username': request.session['username'], 'liked':liked}
+    return render(request, 'board/board.html', context)
+  except:
+    return render(request, 'board/board.html')
 
-def boardTestView(request):
-  return render(request, 'board/board_test.html')

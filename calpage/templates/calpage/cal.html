@@ -1,0 +1,85 @@
+<!-- favicon 에러 떠서 적음-->
+<head> <link rel="shortcut icon" href="#"> </head>
+
+{% extends 'base/base.html' %}
+{% load static %}
+{% block head %}
+<link href="{% static 'css/cal/main.css' %}" rel="stylesheet">
+{% endblock head %}
+{% block contents %}
+<form method = "post" >
+    {% csrf_token %}
+    <div class="main">
+        <div class = title>
+            <h2>자신의 감정을 살펴보세요 </h2>
+            <hr>
+        </div>
+
+        <div class="calendar_header">
+            <div class="ym-wrapper">
+                <span class="year"></span>년
+                <span class="month"></span>월
+            </div>
+            <div class="calendar_nav">
+                <div id="nav-back">&lt;</div>
+                <button class="nav-btn go-today" onclick="Today()">오늘</button>
+                <div id="nav-go">&gt;</div>
+                
+            </div>
+        </div>
+        <div class="calendar_main">
+            <div class="days">
+                <div class="day">일</div>
+                <div class="day">월</div>
+                <div class="day">화</div>
+                <div class="day">수</div>
+                <div class="day">목</div>
+                <div class="day">금</div>
+                <div class="day">토</div>
+                
+            </div>
+            <div class="dates"></div>
+        </div>
+
+    </div>
+
+    {% load static %}
+    <script type="text/javascript" src="{% static 'js/cal/calendar.js' %}"></script>
+
+    <div class="ym-wrapper">
+        <br>이 달의 감정<br>
+        <hr>
+    </div>
+
+    <!-- 하단에 이모티콘과 문장 목록 출력 -->
+    <div class="resv-wrapper">
+        <div class="emo_info">
+            {%for item in data%}
+                <br>
+                작성날짜 : {{item.write}}
+                {% if item.emotion == "0" %}
+                    그날의 기분 : 😀
+                {% endif %}
+                {% if item.emotion == "1" %}
+                    그날의 기분 : 😐
+                {% endif %}
+                {% if item.emotion == "2" %}
+                    그날의 기분 : 😥
+                {% endif %}
+                그날의 일기 :{{item.write}}
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+</form>
+{% endblock contents %}
+{% block script_section %}
+<script>
+    document.querySelector('#nav-go').addEventListener('click', ()=>{
+        nextMonth();
+    });
+    document.querySelector('#nav-back').addEventListener('click', ()=>{
+        prevMonth();
+    });
+</script>
+{% endblock script_section %}

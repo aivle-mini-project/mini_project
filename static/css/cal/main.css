@@ -1,0 +1,119 @@
+main {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top:20px;
+    padding-bottom: 20px;
+}
+
+form {
+    display:flex;
+    justify-content:center;
+    flex-wrap :wrap;
+    width: 700px;
+}
+
+.ym-wrapper {
+    font-size: 20px;
+    text-align:center;
+    margin: 10px;
+    font-weight: 800;
+}
+
+.title{
+    text-align : center;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+.calendar_nav {
+    margin: auto;
+    width: 15%;
+    justify-content:center;
+    align-items:center;
+    display: flex;
+    border: 1px solid #333333;
+    border-radius: 5px;
+}
+
+.nav-btn {
+    height: 25px;
+    width: 10px;
+    border: none;
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+    background-color: #333333;
+    cursor: pointer;
+}
+
+.nav {
+    cursor: pointer;
+}
+
+.go-today {
+    width: 80%;
+    border-left: 1px solid #333333;
+    border-right: 1px solid #333333;
+}
+
+.calendar_main{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.days {
+    display: flex;
+    margin: 25px 0 10px;
+}
+
+.day {
+    width: calc(100% / 7);
+    text-align: center;
+    transition: all .3s;
+}
+
+.dates {
+    display: flex;
+    flex-flow: row wrap;
+    height: 520px;
+}
+
+.date {
+    width: calc(100% / 7);
+    padding: 10px;
+    text-align: right;
+    border: 1px solid #333333;
+    transition: all .3s;
+}
+
+.day:nth-child(7n + 1),
+.date:nth-child(7n + 1) {
+    color: #D13E3E;
+}
+
+.day:nth-child(7n),
+.date:nth-child(7n) {
+    color: #396EE2;
+}
+
+.other {
+    color: rgba(88, 88, 88, 0.2) !important;
+}
+
+.today {
+    position: relative;
+    background-color: #F5A9A9;
+}
+
+.emo_info{
+    background-color: #f7cb9c;
+    text-align : left;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:20px;
+    width: 700px;
+    border-radius: 40px 40px;
+    padding-bottom: 25px;
+}
