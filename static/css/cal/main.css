@@ -83,7 +83,7 @@ form {
     width: calc(100% / 7);
     padding: 10px;
     text-align: right;
-    border: 1.5px solid #333333;
+    border: 1px solid #333333;
     transition: all .3s;
 }
 
@@ -97,6 +97,10 @@ form {
     color: #396EE2;
 }
 
+.other {
+    color: rgba(88, 88, 88, 0.2) !important;
+}
+
 .today {
     position: relative;
     background-color: #F5A9A9;
@@ -104,14 +108,12 @@ form {
 
 .emo_info{
     background-color: #f7cb9c;
-    text-align : center;
+    text-align : left;
     display:flex;
     justify-content:center;
     align-items:center;
-    margin-top:20px;
     margin-bottom:20px;
     width: 700px;
     border-radius: 40px 40px;
     padding-bottom: 25px;
 }
-
