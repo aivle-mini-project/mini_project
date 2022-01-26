@@ -1,11 +1,15 @@
 {% extends 'base/base.html' %}
+{% load static %}
+{% block head %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
+{% endblock head %}
 
 {% block contents %}
 {% if username %}
 {{ username }}님, 안녕하세요
 <a href="{% url 'logout' %}">로그아웃</a>
 {% else %}
-<!-- ======= Title Section ======= -->
+<!-- Title Section -->
 <section id="Title">
     <div class="title-content" data-aos="fade-up">
         <h1 class="t1"> 당신의 감정을 분석하고, 사람들과 공유하세요 </h1>
@@ -16,7 +20,146 @@
             <a href="{% url 'register' %}" class="btn-register scrollto">회원가입</a>
         </div>
     </div>
-</section><!-- End Hero Section -->
+</section>
+<!-- End Hero Section -->
+<!-- Services Section -->
+<section id="services">
+    <div class="container" data-aos="fade-up">
+        <div class="section-header">
+            <h2>서비스</h2>
+            <p>간단한 일기를 입력하면 그날의 감정과 특별한 키워드를 추출해 저장해줍니다. 비슷한 감정이나 경험을 겪은 사람들과 일기를 공유하거나 세상 사람들의 감정 통계를 한눈에 파악해보세요</p>
+        </div>
+
+        <div class="row gy-4">
+
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="box">
+                    <div class="icon"><i class="bi bi-emoji-smile-upside-down"></i></div>
+                    <h4 class="title">감정 분석</a></h4>
+                    <p class="description">CLOVA Sentiment API 서비스를 이용하여, 입력한 문장에 대한 감정을 자동으로 추출해 저장해줍니다.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="box">
+                    <div class="icon"><i class="bi bi-pie-chart-fill"></i></div>
+                    <h4 class="title">감정 통계</h4>
+                    <p class="description">여러분이 입력한 일기들에서 감정과 키워드만 추출하여 모두에게 통계치로 제공됩니다.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="box">
+                    <div class="icon"><i class="bi bi-people-fill"></i></div>
+                    <h4 class="title">감정 공유</h4>
+                    <p class="description">그날의 일기를 공유할 수도 있습니다. 일기의 내용이 마음에 든다면 추천또한 가능합니다.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="box">
+                    <div class="icon"><i class="bi bi-file-earmark-person"></i></div>
+                    <h4 class="title">나의 감정</h4>
+                    <p class="description">나의 감정을 분석하고, 월별로 통계를 볼 수 있습니다.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<!-- End Services Section -->
+<!-- Tip Section -->
+<section id="tips">
+    <div class="container" data-aos="fade-up" data-aos-delay="200">
+        <div class="section-header">
+            <h2>팁</h2>
+            <p>여러분의 일기는 익명성이 보장됩니다! 걱정하지 마세요!</p>
+            <p>감정을 정리하고 공유하는 것은 우울증 치료에 개선이 됩니다.</p>
+        </div>
+    </div>
+</section>
+<!-- End Tip Section -->
+<!-- Team Section -->
+<section id="team">
+    <div class="container" data-aos="fade-up">
+        <div class="section-header">
+            <h2>제작</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="member">
+                    <div class="details">
+                        <h4>서아현</h4>
+                        <span>a011045@aivle.kt.co.kr</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="member">
+                    <div class="details">
+                        <h4>윤지혜</h4>
+                        <span>a011067@aivle.kt.co.kr</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="member">
+                    <div class="details">
+                        <h4>이지훈</h4>
+                        <span>a011080@aivle.kt.co.kr</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="member">
+                    <div class="details">
+                        <h4>조영래</h4>
+                        <span>a011098@aivle.kt.co.kr</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="member">
+                    <div class="details">
+                        <h4>진정한</h4>
+                        <span>a011102@aivle.kt.co.kr</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="member">
+                    <div class="details">
+                        <h4>최승훈</h4>
+                        <span>a011106@aivle.kt.co.kr</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- End Team Section -->
+<!-- Cooperation Section -->
+<section id="cooperation">
+    <div class="container" data-aos="fade-up" data-aos-delay="200">
+        <div class="section-header">
+            <h2>협업</h2>
+            <div class="img-content">
+                <img src="{% static 'img/aivle.png' %}" alt="" />
+                <img src="{% static 'img/Emotics-icon-sample.png' %}" alt="" />
+                <img src="{% static 'img/KT_logo.png' %}" alt="" />
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Cooperation Tip Section -->
 {% endif %}
 
 {% endblock contents %}
