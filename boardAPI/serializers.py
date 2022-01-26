@@ -9,5 +9,4 @@ class DiarySerializer(serializers.ModelSerializer):
   class Meta:
     model = Diary
     fields = ['id','writer', 'write','emotion','neutral','positive','negative','register_date', 'expressions']
-
-  
+    depth = 3

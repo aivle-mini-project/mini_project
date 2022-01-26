@@ -1,22 +1,24 @@
 {% extends 'base/base.html' %}
 
 {% block contents %}
-{% if username %}
-{{ username }}님, 안녕하세요
-<a href="{% url 'logout' %}">로그아웃</a>
-{% else %}
+
 <!-- ======= Title Section ======= -->
 <section id="Title">
     <div class="title-content" data-aos="fade-up">
         <h1 class="t1"> 당신의 감정을 분석하고, 사람들과 공유하세요 </h1>
         <h1 class="name">이모틱스</h1>
         <h2 class="t2">Emo-tics</h2>
+        {% if username %}
+        {{ username }}님, 안녕하세요
+        <a href="{% url 'logout' %}" class="btn-login scrollto">로그아웃</a>
+        {% else %}
         <div>
             <a href="{% url 'login' %}" class="btn-login scrollto">로그인</a>
             <a href="{% url 'register' %}" class="btn-register scrollto">회원가입</a>
         </div>
+        {% endif %}
+
     </div>
 </section><!-- End Hero Section -->
-{% endif %}
 
 {% endblock contents %}
