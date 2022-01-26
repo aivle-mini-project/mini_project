@@ -1,16 +1,28 @@
+from csv import writer
+from django.db import IntegrityError
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.forms.models import model_to_dict
 from django.utils import timezone
-from .models import Diary
+from .models import Diary, DiaryDetail, DiaryDetailHighlight
+from EDuser.models import Eduser
 from .forms import DiaryForm
 import requests,json
 from django.core.exceptions import ValidationError
+from html.parser import HTMLParser
 
 # Create your views here.
+#creae view
 def create(request):
-    return render(request, 'diary/create_diary.html')
+    #DB제거용
+    if request.method =='POST':
+        diary_id = Diary.objects.last().id
+        diary= Diary.objects.get(id =diary_id)
+        diary.delete()
+        return render(request, 'diary/create_diary.html')
 
+    return render(request, 'diary/create_diary.html')
+#detail view
 def detail(request):
     if request.method == 'POST':
         form = DiaryForm(request.POST)
@@ -19,19 +31,19 @@ def detail(request):
                 text = form.cleaned_data['write']
                 print(text,"valid")
             #text = request.POST.get('input1') 
-                url = "https://naveropenapi.apigw.ntruss.com/sentiment-analysis/v1/analyze"
-                data = {
-                "content": text
-                }
-                id ="j7n6px1uvx"
-                pw ="jRa6fHWYxG5qwQC9VqtjpFrXOA4GhsQQoXEEnVEf"
-                headers = {"Content-Type":"application/json",
-                        "X-NCP-APIGW-API-KEY-ID":id,
-                        "X-NCP-APIGW-API-KEY":pw, }
-                #print(headers)
-                res = requests.post(url ,data = json.dumps(data) , headers= headers)
-                res.encoding ='UTF-8'
-                #result = json.loads(res.text)
+                # url = "https://naveropenapi.apigw.ntruss.com/sentiment-analysis/v1/analyze"
+                # data = {
+                # "content": text
+                # }
+                # id ="j7n6px1uvx"
+                # pw ="jRa6fHWYxG5qwQC9VqtjpFrXOA4GhsQQoXEEnVEf"
+                # headers = {"Content-Type":"application/json",
+                #         "X-NCP-APIGW-API-KEY-ID":id,
+                #         "X-NCP-APIGW-API-KEY":pw, }
+                # #print(headers)
+                # res = requests.post(url ,data = json.dumps(data) , headers= headers)
+                # res.encoding ='UTF-8'
+                # result = json.loads(res.text)
                 ####실험용 dictionary############
                 result = {
                         "document": {
@@ -80,22 +92,91 @@ def detail(request):
                         ]
                     }
                 #####제거 부분 (DB저장)
-
+                user_id = request.session['username']
+                print(timezone.now().strftime("%Y-%m-%d"))
+                writer = Eduser.objects.get(username = user_id)
+                #timezone.now().strftime("%Y-%m-%d")
+                d = Diary(writer = writer, write =text, emotion = result['document']['sentiment'], neutral =result['document']['confidence']['neutral'],positive =result['document']['confidence']['positive'],negative =result['document']['confidence']['negative'],register_date =timezone.now())
+                d.save()
+                diary_id = Diary.objects.last().id
+                diary= Diary.objects.get(id =diary_id)
+                for sentence in result['sentences']:
+                    diary_tree = sentence['content']
+                    dt = DiaryDetail(diary = diary, write = diary_tree, emotion = sentence['sentiment'],neutral =sentence['confidence']['neutral'],positive =sentence['confidence']['positive'],negative =sentence['confidence']['negative'] )
+                    dt.save()
+                    diary_detail_id = DiaryDetail.objects.last().id
+                    diary_detail = DiaryDetail.objects.get(id =diary_detail_id)
+                    for highlight in sentence['highlights']:
+                        dth = DiaryDetailHighlight(diary_detail = diary_detail,offset =highlight['offset'],length=highlight['length'])
+                        dth.save()
                 return render(request,'diary/diary_detail.html',result)
-                print(res.status_code)
-                if res.status_code == 200:
-                    #Diary 모델에 넣기
-                    return render(request,'diary/diary_detail.html',result)
-                else:
-                    print("Error"+res.text)
+                # print(res.status_code)
+                # if res.status_code == 200:
+                #     #Diary 모델에 넣기
+                #     return render(request,'diary/diary_detail.html',result)
+                # else:
+                #     print("Error"+res.text)  
             except ValidationError as e:
                 print("eeeeeerrrrrrrrrrrrrorrrrrrrrrrrrrrrrrrrrr")
+
         else:
-            print("invalid", form.errors)
+            print("invalid", type(form),request.POST)
         
     else:
         form =DiaryForm()
-
     return render(request, 'diary/create_diary.html',{'form':form})
 
+#list view
+def list(request):
+    if request.method =='POST':
+        if request.POST.get('hidden'):
+            ##update 부분
+            update_diary = request.POST.get('hidden')
+            print(update_diary,type(update_diary))
+            diary = Diary.objects.filter(register_date__year=timezone.now().year,register_date__month=timezone.now().month ,register_date__day=timezone.now().day)
+            diary =diary.first()
+            diary.write = update_diary
+            diary.save()
+            
+        user_id = request.session['username']
+        writer = Eduser.objects.get(username = user_id)
+        diary_list = Diary.objects.filter(writer= writer)
+        diary_list1 = diary_list[1]
+        diary = diary_list1.diarydetail_set.all()
+        return render(request, 'diary/diary_list.html',{'diary_list':diary_list})
 
+    
+
+def edit(request):
+    if request.method =='POST':
+        print(request)
+        diary_date = Diary.objects.last().register_date
+        #print(diary_date.date,type(diary_date))
+        #날짜 지정
+        diary_total= Diary.objects.filter(register_date__year=timezone.now().year,register_date__month=timezone.now().month ,register_date__day=timezone.now().day)
+        diary = diary_total.first()
+        print(diary)
+        diary_text = diary_total[1]
+        #2개 이상 삭제 부분
+        if len(diary_total)>1:
+            print('delte 2over' )
+            diary1 =diary_total.filter(pk__gt = diary_total[0].id)
+            diary1.delete()
+
+        if diary:
+            return render(request, 'diary/edit_diary.html',{'diary':diary,'diary_text':diary_text})
+
+
+            
+            # form = '<tr><th><label for="id_write">일기의:</label></th><td><ul class="errorlist"><li>이미 오늘 일기를 작성하셨습니다</li></ul><textarea name="write" cols="40" rows="10" maxlength="100" required id="id_write"></textarea></td></tr> '
+            # return render(request, 'diary/create_diary.html',{'form':form})
+    
+    # user_id = request.session['username']
+    # writer = Eduser.objects.get(username = user_id)
+    # diary_list = Diary.objects.filter(writer= writer)
+    # diary_list1 = diary_list[1]
+    # diary = diary_list1.diarydetail_set.all()
+    # print(diary)
+    # return render(request, 'diary/diary_list.html',{'diary_list':diary_list})
+
+ 
