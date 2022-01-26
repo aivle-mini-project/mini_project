@@ -54,8 +54,7 @@ def show_date(request):
 
 
 def show_date_keyword(request):
-    # today = date.today()
-    today = datetime.strptime('2022-01-25', "%Y-%m-%d")
+    today = date.today()
 
     # 날짜 선택 시
     if request.method == 'POST':

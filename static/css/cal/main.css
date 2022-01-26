@@ -13,11 +13,6 @@ form {
     width: 700px;
 }
 
-.calendar_header {
-    width: 30%;
-    margin: auto;
-}
-
 .ym-wrapper {
     font-size: 20px;
     text-align:center;
@@ -25,19 +20,34 @@ form {
     font-weight: 800;
 }
 
+.title{
+    text-align : center;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
 .calendar_nav {
+    margin: auto;
+    width: 15%;
+    justify-content:center;
+    align-items:center;
     display: flex;
     border: 1px solid #333333;
     border-radius: 5px;
 }
 
 .nav-btn {
-    width: 28px;
-    height: 30px;
+    height: 25px;
+    width: 10px;
     border: none;
     font-size: 16px;
-    line-height: 34px;
-    background-color: transparent;
+    color: white;
+    font-weight: bold;
+    background-color: #333333;
+    cursor: pointer;
+}
+
+.nav {
     cursor: pointer;
 }
 
@@ -67,15 +77,13 @@ form {
     display: flex;
     flex-flow: row wrap;
     height: 520px;
-    border: 1px solid #333333;
 }
 
 .date {
-    cursor: pointer;
     width: calc(100% / 7);
     padding: 10px;
     text-align: right;
-    border: 1px solid #333333;
+    border: 1.5px solid #333333;
     transition: all .3s;
 }
 
@@ -89,40 +97,21 @@ form {
     color: #396EE2;
 }
 
-.other {
-    color: rgba(88, 88, 88, 0.2) !important;
-}
-
 .today {
     position: relative;
     background-color: #F5A9A9;
 }
 
-.selected{
-    background-color: #CEE3F6;
-    color: #ffffff !important;
-}
-
-.resv-bg{
-    background-color: #F8ECE0;
-}
-
-.resv_info{
+.emo_info{
+    background-color: #f7cb9c;
     text-align : center;
     display:flex;
     justify-content:center;
     align-items:center;
     margin-top:20px;
     margin-bottom:20px;
+    width: 700px;
+    border-radius: 40px 40px;
+    padding-bottom: 25px;
 }
 
-.date_event{
-    font-size : 20pt;
-    text-align : center;
-}
-
-.title{
-    text-align : center;
-    margin-top:20px;
-    margin-bottom:20px;
-}

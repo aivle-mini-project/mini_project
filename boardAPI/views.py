@@ -4,6 +4,11 @@ from .serializers import DiarySerializer
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics
 from rest_framework import mixins
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from diary.models import Expression,Diary
+from EDuser.models import Eduser
 
 # Create your views here.
 class BoardPagination(PageNumberPagination):
@@ -18,3 +23,16 @@ class DiaryListAPI(generics.GenericAPIView, mixins.ListModelMixin):
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+@csrf_exempt
+def req_json(request):
+    if request.method == 'POST':
+        obj = request.body.decode("utf-8")
+        data = json.loads(obj)
+        print(data['username'])
+        Expression.objects.create(user=Eduser.objects.get(username=data['username']),diary=Diary.objects.get(pk=data['diary_id']))
+    if request.method == 'DELETE':
+        obj = request.body.decode("utf-8")
+        data = json.loads(obj)
+        Expression.objects.get(user=Eduser.objects.get(username=data['username']),diary=Diary.objects.get(pk=data['diary_id'])).delete()
+    return JsonResponse(data)

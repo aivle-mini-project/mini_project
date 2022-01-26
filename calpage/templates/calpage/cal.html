@@ -45,20 +45,11 @@
  
     <!-- 하단에 이모티콘과 문장 목록 출력 -->
     <div class="resv-wrapper">
-        <div class="resv-bg">
-            <div class="resv_info">
-                <div class="resv_ym">
-                    <div id = "date-title">
-                         
-                                              
+            <div class="emo_info">           
                         {%for item in data%}
-                            {{item.id}} / {{item.write}} />
+                            <br>{{item.id}} / {{item.write}}<br>
                         {% endfor %}
-                        
-                    </div>
-                </div>
             </div>
-        </div>
     </div>
 </form>
 {% endblock contents %}
