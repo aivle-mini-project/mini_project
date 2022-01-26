@@ -20,6 +20,7 @@ def create(request):
         diary= Diary.objects.get(id =diary_id)
         diary.delete()
         return render(request, 'diary/create_diary.html')
+
     return render(request, 'diary/create_diary.html')
 #detail view
 def detail(request):
@@ -132,7 +133,7 @@ def list(request):
             ##update 부분
             update_diary = request.POST.get('hidden')
             print(update_diary,type(update_diary))
-            diary = Diary.objects.filter(register_date__year='2022',register_date__month='01',register_date__day='26')
+            diary = Diary.objects.filter(register_date__year=timezone.now().year,register_date__month=timezone.now().month ,register_date__day=timezone.now().day)
             diary =diary.first()
             diary.write = update_diary
             diary.save()
@@ -152,7 +153,7 @@ def edit(request):
         diary_date = Diary.objects.last().register_date
         #print(diary_date.date,type(diary_date))
         #날짜 지정
-        diary_total= Diary.objects.filter(register_date__year='2022',register_date__month='01',register_date__day='26')
+        diary_total= Diary.objects.filter(register_date__year=timezone.now().year,register_date__month=timezone.now().month ,register_date__day=timezone.now().day)
         diary = diary_total.first()
         print(diary)
         diary_text = diary_total[1]
