@@ -1,0 +1,30 @@
+{% extends 'base/base.html' %}
+{%load diary_format %}
+{% block contents %}
+{% if request.session.username %}
+<body>
+    <h1>{{request.session.username}} 일기장</h1>
+    <table border = '1'>
+        <tr>
+        <th>일기</th> <th>감정</th><th>긍정률</th><th>부정률</th><th>평온률</th><th>날짜</th>
+        </tr>
+        {% for diary in diary_list %}
+        <tr>
+            <td>{{diary.write}}&nbsp&nbsp  </td>  <td>{{ diary.emotion| show}}&nbsp&nbsp  </td>  <td>{{diary.positive| percent}}&nbsp&nbsp  </td>
+            <td>{{diary.negative| percent}}&nbsp&nbsp  </td><td>{{diary.neutral| percent}}&nbsp&nbsp  </td><td>{{diary.register_date}}&nbsp&nbsp  </td>
+        </tr>
+        {% endfor %}
+        </table>
+    </body>
+
+
+
+
+{% else %}
+<h1>로그인을 하세요<h1>
+    
+{% endif %}
+    
+{% endblock contents %}
+
+ 

@@ -1,4 +1,5 @@
 
+from operator import truediv
 from django.db import models
 from EDuser.models import Eduser
 from .validation import validate_sentence
@@ -15,7 +16,7 @@ class Diary(models.Model):
   neutral = models.FloatField(verbose_name='평온')
   positive = models.FloatField(verbose_name='긍정')
   negative = models.FloatField(verbose_name='부정')
-  register_date = models.DateTimeField(auto_now_add=True, verbose_name='등록날짜')
+  register_date = models.DateTimeField(unique= True,verbose_name='등록날짜')
 
   class Meta:
     db_table = 'diary'
