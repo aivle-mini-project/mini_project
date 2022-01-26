@@ -1,4 +1,5 @@
 let date = new Date();
+let mon;
 
 const renderCalender = () => {
     const viewYear = date.getFullYear();
@@ -20,37 +21,32 @@ const renderCalender = () => {
     const thisDates = [...Array(TLDate + 1).keys()].slice(1);
     const nextDates = [];
 
+
     if (PLDay !== 6) {
         for (let i = 0; i < PLDay + 1; i++) {
-            prevDates.unshift(PLDate - i);
+            prevDates.unshift(" ");
         }
     }
 
     for (let i = 1; i < 7 - TLDay; i++) {
-        nextDates.push(i);
+        nextDates.push(" ");
     }
 
     const dates = prevDates.concat(thisDates, nextDates);
     const firstDateIndex = dates.indexOf(1);
     const lastDateIndex = dates.lastIndexOf(TLDate);
-
+    
     dates.forEach((date, i) => {
         const condition = i >= firstDateIndex && i < lastDateIndex + 1 ?
             'this' :
             'other';
-
+            
             dates[i] =
         `
             <div class="date ${condition}">
-
                 <div class="date-itm">
-                    ${date}
+                    ${show(mon,date)}
                 </div>
-
-                <div class="date_event">
-                    <div class="event-itm">${feeling(0)}</div>
-                </div>
-
             </div>
         `;
     });
@@ -58,13 +54,13 @@ const renderCalender = () => {
     document.querySelector('.dates').innerHTML = dates.join('');
 
     // 오늘 날짜 표시
+    mon = viewMonth+1;
     const today = new Date();
     if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
         for (let date of document.querySelectorAll('.date-itm')) {
             if (+date.innerText === today.getDate()) {
                 date.classList.add('today');
                 break;
-
             }
             
         }
@@ -88,14 +84,21 @@ function goToday() {
     renderCalender();
 };
 
-// 시험용
-function feeling(emo){
-    if (emo ==1)
-        return "😀"
-    else if (emo ==2)
-        return "😐"
-    else if (emo ==3)
-        return "😥"
-    else
+// 현재 표시 달 가져오기
+function send(){
+    return mon;
+}
+
+//날짜를 받아서 달력에 날짜와 기분 표현
+function show(mon,da){
+    if(da == " ") // 이전 달 날짜 표시하지 않는다
         return " "
+    else if (da == 1)
+        return da+" 😀"
+    else if (da == 2)
+        return da+" 😐"
+    else if (da == 3)
+        return da+" 😥"
+    else // 저장된 값 없을 시 날짜만 표시
+        return da
 }

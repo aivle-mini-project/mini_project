@@ -8,7 +8,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
+<<<<<<< HEAD
   <title>Emotics-당신의 감정을 기록하세요.</title>
+=======
+  <title>Emotics</title>
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+>>>>>>> 38b54edd70b75432cce0f8f5bae2a1300c292d39
   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
   <link href="{% static 'css/default.css' %}" rel="stylesheet">
   <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
@@ -24,7 +30,7 @@
   <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
   
   <!-- GoogleFonts-->
-  <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
   {% block head %}
   {% endblock head %}
 </head>
@@ -32,7 +38,11 @@
 <body class="sb-nav-fixed">
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
+<<<<<<< HEAD
     <a class="navbar-brand ps-3" href="/">Emotics</a>
+=======
+    <a id = "brandname" class="navbar-brand ps-3" href="/">이모틱스</a>
+>>>>>>> 38b54edd70b75432cce0f8f5bae2a1300c292d39
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
       <i class="fas fa-bars"></i>
@@ -75,6 +85,11 @@
             <a class="nav-link" href="./board">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               다른 사람 일기
+            <a class="nav-link" href="/mypage/mypage/">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-tachometer-alt"></i>
+              </div>
+              mypage
             </a>
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
               aria-expanded="false" aria-controls="collapseLayouts">
@@ -171,8 +186,6 @@
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
   <script src="{% static 'js/scripts.js' %}"></script>
-  <script src="{% static 'assets/demo/chart-area-demo.js' %}"></script>
-  <script src="{% static 'assets/demo/chart-bar-demo.js' %}"></script>
   <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
   <script src="{% static 'js/datatables-simple-demo.js'%}"> </script>
 

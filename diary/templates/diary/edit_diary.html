@@ -24,20 +24,21 @@
 </style>
 <section id="Title">
     <div class="title-content" data-aos="fade-up" >
-        <h1 class="name"> 감정 일기 써 봐라 </h1>
+        <h1 class="name"> 기존에 쓴 글이 이미 존재합니다 </h1>
+            <br>
+            <h1 class="t1"> 기존에 쓴 일기 : {{diary.write}} </h1>
+            <h1 class="t1">지금 쓴 일기: {{diary_text.write}}</h1>
+            <br>
         <br>
         <div>
-            <form  action="/diary/detail/"  method="POST">
+            <form action = '/diary/list/' method = "POST">
                 {% csrf_token %}
-                {% comment %} <label for="name">일기</label> {% endcomment %}
-                <input id = "write" type = "text" name = "write" placeholder="입력해주세요! " 
-                    value="{{ form.write.value | default_if_none:'' }}">
-
-                <input id = 'input2' type = "submit"/>
-                <br>
-                <br>
-                <br>
-                {% include "form_errors.html" %}
+                <input type="hidden" name="hidden" value="{{diary_text.write}}">
+                <input id = 'input1' type = "submit" value = "일기 바꾸기"/>
+            </form>
+            <form action = '/diary/list/' method = "POST">
+                {% csrf_token %}
+                <input id = 'input1' type = "submit" value = "그대로 두기"/>
             </form>
         </div>
     </div>
@@ -47,7 +48,6 @@
 
 {% else %}
 <h1>로그인을 하세요<h1>
-
 {% endif %}
 
 {% endblock contents %}

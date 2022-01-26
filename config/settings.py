@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'otherpage',
     'calpage',
+    'mypage',
 ]
 
 MIDDLEWARE = [
@@ -106,7 +107,7 @@ DATABASES = {
         'NAME': 'Emotics',
         'USER': 'Emotics',
         'PASSWORD': 'ETSU1995',
-        'HOST': '15.164.153.191',
+        'HOST': '13.125.52.234',
         'PORT': 3306
     }
 }
@@ -138,11 +139,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

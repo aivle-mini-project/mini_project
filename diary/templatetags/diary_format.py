@@ -9,3 +9,8 @@ def show(value):
         return '편안하시네요'
     else:
         return '행복한 하루인가요'
+
+@register.filter(name='percent')
+def show(value):
+    value = int(value*10000)/100
+    return str(value)+'%'

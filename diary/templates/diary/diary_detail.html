@@ -2,7 +2,18 @@
 {%load diary_format %}
 {% block contents %}
 {% if request.session.username %}
+<style>
+    #input1{
+        width:  150px;
+        height: 55px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom:  3px solid black;
+    }
 
+</style>
+{%if sentences%}
 <body>
     <h1>결과</h1>
     <hr>
@@ -18,9 +29,20 @@
         <li>offset : {{highlight.offset}}, length:  {{highlight.length}}</li>
         {% endfor %}
     {% endfor %}
+    <br>
+    <br>
+    <form action = '/diary/edit/' method = "POST">
+        {% csrf_token %}
+        <input id = 'input1' type = "submit" value = "일기 저장하기"/>
+    </form>
+    <br>
+    <form action = '/diary/create/' method = "POST">
+        {% csrf_token %}
+        <input id = 'input1' type = "submit" value = "일기 다시쓰기"/>
+    </form>
+    </body>
+{%endif%}
 
-
-</body>
  {% else %}
 <!-- ======= Title Section ======= -->
 <h1>로그인을 하세요2<h1>

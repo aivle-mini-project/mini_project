@@ -8,7 +8,11 @@
 {% block contents %}
 <div id="Container">
     <section id="Title-section">
-        <h2>다른 사람들의 기분 통계를 확인해보세요 </h2>
+        다른 사람들의 기분 통계를 확인해보세요
+    </section>
+    <section id="Nav-section">
+        <div class = "now">기분</div>
+        <a href="{% url 'otherpage:date_keyword' %}" class="notnow">키워드</a>
     </section>
     <section id="Date-section">
         <div class = "pp">

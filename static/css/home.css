@@ -1,0 +1,235 @@
+/*--------------------------------------------------------------
+# Title Section
+--------------------------------------------------------------*/
+#Title {
+    width: 100%;
+    height: 80vh;
+    background-color : rgb(33,37,41,0.1);
+    position: relative;
+    padding: 0;
+  }
+  #Title .title-content {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  #Title .title-content .t1 {
+    color: black;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    font-weight: 500;
+  }
+  
+  #Title .title-content .name {
+    margin-top: 3rem;
+    font-size: 4rem;
+    font-weight: 700;
+    color: black;
+  }
+  #Title .title-content .t2 {
+    color: black;
+    margin-bottom: 4rem;
+    font-size: 2rem;
+    font-family: 'Cabin Sketch';
+  }
+  @media (max-width: 767px) {
+    #Title .title-content .t1 {
+      font-size: 34px;
+    }
+  }
+  
+  #Title .title-content .btn-login, #Title .title-content .btn-register {
+    font-family: "Raleway", sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 10px 32px;
+    border-radius: 2px;
+    transition: 0.5s;
+    margin: 10px;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  #Title .title-content .btn-login {
+    background: #212529;
+    border: 2px solid #212529;
+  }
+  #Title .title-content .btn-login:hover {
+    background: none;
+    color: #212529;
+  }
+  #Title .title-content .btn-register {
+    background: white;
+    color: #212529;
+    border: 2px solid #212529;
+  }
+  #Title .title-content .btn-register:hover {
+    background: none;
+    color: #212529;
+  
+  }
+
+/* Services Section
+--------------------------------*/
+#services {
+    padding: 40px 0;
+  }
+#services .section-header h2{
+    box-shadow: inset 0 -20px 0 rgb(150,141,120,0.3);
+    padding : 0 0.5rem;
+    width : 7rem;
+    font-size : 2rem;
+    font-weight : 700;
+}
+  #services .box {
+    padding: 40px;
+    box-shadow: 10px 10px 15px rgba(73, 78, 92, 0.1);
+    background: #fff;
+    transition: 0.4s;
+    height: 100%;
+  }
+  #services .box:hover {
+    box-shadow: 0px 0px 30px rgba(73, 78, 92, 0.15);
+    transform: translateY(-10px);
+    -webkit-transform: translateY(-10px);
+    -moz-transform: translateY(-10px);
+  }
+  #services .box .icon {
+    float: left;
+  }
+  #services .box .icon i {
+    color: #444;
+    font-size: 64px;
+    transition: 0.5s;
+    line-height: 0;
+    margin-top: 34px;
+  }
+  #services .box .icon i:before {
+    background: #0c2e8a;
+    background: linear-gradient(45deg, #212529 0%, #4B555E 100%);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  #services .box h4 {
+    margin-left: 100px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 22px;
+  }
+  #services .box h4 a {
+    color: #444;
+  }
+  #services .box p {
+    font-size: 14px;
+    margin-left: 100px;
+    margin-bottom: 0;
+    line-height: 24px;
+  }
+  @media (max-width: 767px) {
+    #services .box .box {
+      margin-bottom: 20px;
+    }
+    #services .box .icon {
+      float: none;
+      text-align: center;
+      padding-bottom: 15px;
+    }
+    #services .box h4, #services .box p {
+      margin-left: 0;
+      text-align: center;
+    }
+  }
+
+/* Tips Section
+--------------------------------*/
+#tips {
+    padding: 40px 0;
+  }
+#tips .section-header h2{
+    box-shadow: inset 0 -20px 0 rgb(150,141,120,0.3);
+    padding : 0 0.5rem;
+    width : 3.3rem;
+    font-size : 2rem;
+    font-weight : 700;
+}
+#tips .section-header p{
+    font-family: 'Noto Sans KR', sans-serif;
+    margin-top : 1rem;
+    border-bottom : solid 1px rgb(150,141,120,0.3)
+}
+/* Team Section
+--------------------------------*/
+#team {
+    background: #fff;
+    padding: 30px 0 0 0;
+  }
+  #team .section-header h2{
+    box-shadow: inset 0 -20px 0 rgb(150,141,120,0.3);
+    padding : 0 0.5rem;
+    width : 5rem;
+    font-size : 2rem;
+    font-weight : 700;
+    margin-bottom : 1rem;
+}
+  #team .member {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  #team .member .pic {
+    overflow: hidden;
+    text-align: center;
+  }
+
+  #team .member .details {
+    background: #212529;
+    color: #fff;
+    padding: 15px;
+    border-radius: 0 0 3px 3px;
+  }
+  #team .member h4 {
+    font-weight: 700;
+    margin-bottom: 2px;
+    font-size: 18px;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  #team .member span {
+    font-style: italic;
+    display: block;
+    font-size: 13px;
+  }
+
+/* cooperation Section
+--------------------------------*/
+#cooperation {
+    padding: 40px 0;
+  }
+#cooperation .section-header h2{
+    box-shadow: inset 0 -20px 0 rgb(150,141,120,0.3);
+    padding : 0 0.5rem;
+    width : 5rem;
+    font-size : 2rem;
+    font-weight : 700;
+    margin-bottom : 1rem;
+}
+
+#cooperation .img-content{
+    display : flex;
+    flex-direction: row;
+    justify-content : center;
+}
+
+#cooperation .img-content img{
+    height : 10rem;
+    margin : 0 4rem;
+}
