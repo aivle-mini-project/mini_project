@@ -1,0 +1,75 @@
+{% extends 'base/base.html' %}
+{% block head %}
+<style>
+    .likediary{
+        background-color:aliceblue;
+        border: 1px solid black;
+    }
+</style>
+{% endblock head %}
+{% block contents %}
+<html lang="ko">
+    <head>
+        <title> 마이페이지 </title>
+    </head>
+    <body>
+        <center>
+        <br>
+            <h1> 마이페이지 </h1>
+        <br>
+            <img src="http://127.0.0.1:8000/media/profile/32.png/" alt="http://127.0.0.1:8000/media/profile/default.jpg/" style="max-width: 100%; height: auto;">
+        <br>
+        <br>
+            {{user}}님의 게시물
+        <br>
+        <div>
+            <div class='likediary'>
+            <br>
+            {% for expression in info %} 
+                <table border='1'>
+                    <tr>
+                        <th><dt><b>writer</b></dt></th>
+                        <td><span>{{ expression.writer }}</span></td>
+                    </tr>
+                    <tr>
+                        <th><dt><b>write</b></dt></th>
+                        <td><span>{{ expression.write }}</span></td>
+                    </tr>
+                        <th><dt><b>emotion</b></dt></th>
+                        <td><span>{{ expression.emotion }}</span></td>
+                    <tr>
+                        <th><dt><b>neutral</b></dt></th>
+                        <td><span>{{  expression.neutral }}</span></td>
+                    </tr>
+                    <tr>
+                        <th><dt><b>positive</b></dt></th>
+                        <td><span>{{ expression.positive }}</span></td>
+                    </tr>
+                    <tr>
+                        <th><dt><b>negative</b></dt></th>
+                        <td><span>{{ expression.negative }}</span></td>
+                    </tr>
+                    <tr>
+                        <th><dt><b>register_date</b></dt></th>
+                        <td><span>{{ expression.register_date }}</span></td>
+                    </tr>
+                </table>
+                <br>
+            {% endfor %}
+            </div>
+        </div>
+        <div style='text-align:center;'>
+            <ul class='pagination justify-content-center' style="margin-top: 2rem;">
+                {% for i in page_range %}
+                    <li class="page-item">
+                    <a class="page-link" href='./?page={{ i }}'>
+                        {{ i }}
+                    </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>            
+        </center>
+    </body>
+</html>
+{% endblock contents %}
