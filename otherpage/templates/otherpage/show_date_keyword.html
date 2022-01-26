@@ -28,7 +28,7 @@
         </div>
         <div class="col-lg-6">
             <div class="card mb-4">
-                <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas></div>
+                <div class="card-body"><canvas id="keyword_chart" width="100%" height="50"></canvas></div>
             </div>
         </div>
     </section>
@@ -57,18 +57,35 @@
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 <script src="{% static 'js/other/bootstrap-datepicker.js'%}"></script>
 <script>
+    // 데이터 변환
     let s_data = [
         {% for item in data %}
         {
-            emo_date: "{{ item.emo_date }}",
-            positive: {{ item.positive }},
-            neutral: {{ item.neutral }},
-            negative: {{ item.negative }},
+            sentence: "{{ item.sentence }}",
+            offset :
+            [
+                {%for o in item.highlight.offset%}
+                {{o}}
+                {%endfor%}
+            ],
+            length :
+            [
+                {%for l in item.highlight.length%}
+                {{l}}
+                {%endfor%}
+            ],
+            emotion :
+            [
+                {%for e in item.highlight.emotion%}
+                "{{e}}"
+                {%endfor%}
+            ],
         },
         {% endfor %}
     ]
+
 </script>
-<script src="{% static 'js/other/statistics-pie.js'%}"></script>
+<script src="{% static 'js/other/statistics-polararea.js'%}"></script>
 <script>
     const csrftoken = getCookie('csrftoken');
 	$(function() {
@@ -94,10 +111,18 @@
                 }
             });
             data.then(function (result) {
-                datelook = result.data[0].emo_date.split('-')
+                datelook = result.data.select_date.split('-')
                 document.getElementById('date-title').innerHTML = Number(datelook[0])+ "년 "+ Number(datelook[1])+ "월 " +Number(datelook[2])+ "일 "
-                myChart.data.datasets[0].data = [result.data[0].negative, result.data[0].neutral, result.data[0].positive];
-                myChart.update()
+                let new_data = result.data.result_data;
+                let new_data_labels = [];
+                let new_dataset = [];
+                let new_colorset = [];
+
+                pushData(new_data_labels, new_dataset, new_colorset, new_data)
+                keyWordChart.data.labels = new_data_labels
+                keyWordChart.data.datasets[0].data = new_dataset
+                keyWordChart.data.datasets[0].backgroundColor = new_colorset
+                keyWordChart.update()
             });
         })
 	})
