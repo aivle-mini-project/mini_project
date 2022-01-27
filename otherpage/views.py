@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from sqlalchemy import true
 from otherpage.models import Statistics
 from diary.models import Diary, DiaryDetail, DiaryDetailHighlight
 from datetime import date, datetime, timedelta
@@ -60,8 +59,9 @@ def show_date_keyword(request):
     if request.method == 'POST':
         select_date = json.loads(request.body.decode("utf-8"))
         strpdate = datetime.strptime(select_date['select_data'], "%Y-%m-%d")
-        temp_data = Diary.objects.filter(
-            register_date__year=strpdate.year, register_date__month=strpdate.month, register_date__day=strpdate.day)
+        temp_data = Diary.objects.filter(register_date__range=[strpdate.strftime(
+            '%Y-%m-%d 0:0'), strpdate.strftime('%Y-%m-%d 23:59')])
+        print(len(temp_data))
         pushdata = {}
         pushdata['select_date'] = select_date['select_data']
         pushdata['result_data'] = []
@@ -87,8 +87,8 @@ def show_date_keyword(request):
 
         return JsonResponse(pushdata, safe=False)
     else:
-        temp_data = Diary.objects.filter(
-            register_date__year=today.year, register_date__month=today.month, register_date__day=today.day)
+        temp_data = Diary.objects.filter(register_date__range=[today.strftime(
+            '%Y-%m-%d 0:0'), today.strftime('%Y-%m-%d 11:59')])
         pushdata = []
         for diary_data in temp_data:
             diary_d_datas = diary_data.diarydetail_set.all()

@@ -8,53 +8,59 @@ import numpy as np
 import random
 import math
 import sqlite3
-from random import randint,randrange,choices
+from random import randint, randrange, choices
 import datetime as dt
 import json
 
-def random_date(year,month,day):#     
-    hour=randint(7,23)
-    minute=randint(0,59)
-    mk_date=dt.datetime(year,month,day,hour,minute).strftime("%Y-%m-%d %H:%M")
+
+def random_date(year, month, day):
+    hour = randint(7, 23)
+    minute = randint(0, 59)
+    mk_date = dt.datetime(year, month, day, hour,
+                          minute).strftime("%Y-%m-%d %H:%M")
 
     return mk_date
+
+
 conn = sqlite3.connect("db.sqlite3")
 c = conn.cursor()
-for user_num in range(1,21):
+for user_num in range(1, 21):
     user_list = [0]*5
-    user_list[0] = '123456'  #password
-    user_list[1] = 'aivler'+str(user_num)+'@aivle.com'#id
-    user_list[2] = random_date(2020,12,13)
+    user_list[0] = '123456'  # password
+    user_list[1] = 'aivler'+str(user_num)+'@aivle.com'  # id
+    user_list[2] = random_date(2020, 12, 13)
     user_list[3] = 'aivler'+str(user_num)
     user_list[4] = ''
 
-    
-    ##t시작
-    sql = "insert into Emotics_user(password,email,register_date,username,profile_img) values ('"+user_list[0]+"','"+user_list[1]+"','"+user_list[2]+"','"+user_list[3]+"','"+user_list[4]+"');"
+    # t시작
+    sql = "insert into Emotics_user(password,email,register_date,username,profile_img) values ('" + \
+        user_list[0]+"','"+user_list[1]+"','"+user_list[2] + \
+        "','"+user_list[3]+"','"+user_list[4]+"');"
     c.execute(sql)
     conn.commit()
-    #####dictionary 불러오는 부분)
-    
-    sql11=''
-    for month in range(2,14):
+    # dictionary 불러오는 부분)
+
+    sql11 = ''
+    for month in range(2, 14):
         day = 0
-        for idx in range(12):#일이 바뀌는 부분
-            sql1 ='(select id from Emotics_user where username = "'+user_list[3]+'")'
-            day +=(1+randint(0,1))
+        for idx in range(12):  # 일이 바뀌는 부분
+            sql1 = '(select id from Emotics_user where username = "' + \
+                user_list[3]+'")'
+            day += (1+randint(0, 1))
             num = (idx+12*(month-2))+144*(user_num-1)
             if num == 2819:
                 break
             with open('./result/result'+str(num)+'.json', 'r') as f:
                 result = json.load(f)
-            #####diary
-            full_text =''
+            # diary
+            full_text = ''
             for i in result["sentences"]:
-                full_text+= i['content']
+                full_text += i['content']
             print(str(num)+'. '+full_text)
-            if month ==13:
-                register_date = random_date(2022,1,day)
+            if month == 13:
+                register_date = random_date(2022, 1, day)
             else:
-                register_date = random_date(2021,month,day)
+                register_date = random_date(2021, month, day)
             user_list_d = [0]*7
             user_list_d[1] = full_text
             user_list_d[2] = result['document']['sentiment']
@@ -62,36 +68,42 @@ for user_num in range(1,21):
             user_list_d[4] = str(result['document']['confidence']['positive'])
             user_list_d[5] = str(result['document']['confidence']['negative'])
             user_list_d[6] = register_date
-            sql11 ="insert into diary(writer_id,write,emotion,neutral,positive,negative,register_date) values ("+sql1+",'"+user_list_d[1]+"','"+user_list_d[2]+"',"+user_list_d[3]+","+user_list_d[4]+","+user_list_d[5]+",'"+user_list_d[6]+"');"
+            sql11 = "insert into diary(writer_id,write,emotion,neutral,positive,negative,register_date) values ("+sql1+",'" + \
+                user_list_d[1]+"','"+user_list_d[2]+"',"+user_list_d[3]+"," + \
+                    user_list_d[4]+","+user_list_d[5]+",'"+user_list_d[6]+"');"
             c.execute(sql11)
             conn.commit()
-            sql22 =''
-            #######diary_detail
+            sql22 = ''
+            # diary_detail
             for sentence in result["sentences"]:
-                sql2 ='(select id from diary where write = "'+user_list_d[1]+'")'
+                sql2 = '(select id from diary where write = "' + \
+                    user_list_d[1]+'")'
                 user_list_dt = [0]*6
                 user_list_dt[1] = sentence['content']
                 user_list_dt[2] = sentence['sentiment']
                 user_list_dt[3] = str(sentence['confidence']['neutral'])
                 user_list_dt[4] = str(sentence['confidence']['positive'])
                 user_list_dt[5] = str(sentence['confidence']['negative'])
-                sql22 ="insert into diary_detail(diary_id,write,emotion,neutral,positive,negative) values ("+sql2+",'"+user_list_dt[1]+"','"+user_list_dt[2]+"',"+user_list_dt[3]+","+user_list_dt[4]+","+user_list_dt[5]+");"
+                sql22 = "insert into diary_detail(diary_id,write,emotion,neutral,positive,negative) values ("+sql2+",'" + \
+                    user_list_dt[1]+"','"+user_list_dt[2]+"',"+user_list_dt[3] + \
+                        ","+user_list_dt[4]+","+user_list_dt[5]+");"
                 c.execute(sql22)
                 conn.commit()
-                sql3=''
-                #########diary_detail_highlights
+                sql3 = ''
+                # diary_detail_highlights
                 for highlight in sentence['highlights']:
-                    sql3 ='(select id from diary_detail where write = "'+user_list_dt[1]+'")'
+                    sql3 = '(select id from diary_detail where write = "' + \
+                        user_list_dt[1]+'")'
                     user_list_dth = [0]*3
                     user_list_dth[1] = str(highlight['offset'])
                     user_list_dth[2] = str(highlight['length'])
-                    sql33 ="insert into diary_detail_highlight(diary_detail_id,offset,length) values ("+sql3+","+user_list_dth[1]+","+user_list_dth[2]+");"
+                    sql33 = "insert into diary_detail_highlight(diary_detail_id,offset,length) values (" + \
+                        sql3+","+user_list_dth[1]+","+user_list_dth[2]+");"
                     c.execute(sql33)
                     conn.commit()
         if num == 2819:
-                break
+            break
     if num == 2829:
-                break
+        break
 
 c.close()
-
