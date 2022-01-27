@@ -63,7 +63,7 @@ class DiaryDetailHighlight(models.Model):
 
 class Expression(models.Model):
   user = models.ForeignKey(Eduser, on_delete=models.CASCADE)
-  diary = models.ForeignKey(Diary, on_delete=models.CASCADE)
+  diary = models.ForeignKey(Diary, on_delete=models.CASCADE, related_name='expressions')
   class Meta:
     db_table='expression'
     verbose_name = '좋아요'
