@@ -233,3 +233,7 @@
     height : 10rem;
     margin : 0 4rem;
 }
+
+#helloworld{
+  font-family: 'Noto Sans KR', sans-serif;
+}

@@ -1,0 +1,111 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block head %}
+<link href="{% static 'css/mypage/mypage.css' %}" rel="stylesheet">
+{% endblock head %}
+{% block contents %}
+<html lang="ko">
+
+<body>
+    <script>
+        let id_array=[];
+    </script>
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10">
+                <div id="dis" class="card p-4 py-4">
+                    <div class="text-center mt-3">
+                        <h5 id="username" class="mt-2 mb-0">내가 쓴 글</h5>
+                        <div>
+                            <br>
+                            {% for expression in info %}
+                            <div id="diary-content">
+                                <div id="title">
+                                    <div id="emotion">
+                                        {% if expression.emotion == "positive" %}
+                                        😀
+                                        {% elif expression.emotion == "negative" %}
+                                        😥
+                                        {% else %}
+                                        😐
+                                        {%endif %}
+                                    </div>
+                                    <div id="date">
+                                        {{ expression.register_date.year }} - {{ expression.register_date.month }} - {{ expression.register_date.day }}
+                                    </div>
+                                </div>
+                                <div id="write">
+                                    {{ expression.write }}
+                                </div>
+                                <script>
+                                    id_array.push({{expression.id}})
+                                </script>
+                                <div id = "delete">
+                                    <button id = "btn-{{expression.id}}" class="btn btn-outline-primary px-2">삭제</button> 
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style='text-align:center;'>
+        <ul class='pagination justify-content-center' style="margin-top: 2rem;">
+            {% for i in page_range %}
+            <li class="page-item">
+                <a class="page-link" href='./?page={{ i }}'>
+                    {{ i }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+
+</html>
+
+
+{% endblock contents %}
+{% block script_section%}
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+<script>
+    const csrftoken = getCookie('csrftoken');
+    for(i of id_array){
+        document.querySelector('#btn-'+String(i)).addEventListener('click', ()=>{
+            const data2 = { 'id_number': i};
+            const data = axios({
+                url: '/mypage/mydiary/',
+                method: 'post',
+                data: JSON.stringify(data2),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                }
+            });
+            data.then(function (result) {
+                location.href='http://localhost:8000/mypage/mydiary/'
+            });
+        });
+    }
+</script>
+{% endblock script_section%}

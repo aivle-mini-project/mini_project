@@ -1,0 +1,163 @@
+body {
+    background: #eee
+}
+
+#notdis{
+    height : 60vh;
+}
+.card {
+    border: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    display : flex;
+    justify-content: center;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.card #img-content{
+    display: flex;
+    flex-direction : column;
+    justify-content: center;
+    align-items: center;
+}
+.card #username{
+    font-size : 2rem;
+    padding-bottom : 10px;
+    border-bottom : 2px solid rgb(0,0,0,0.1);
+}
+.card #p-content{
+    padding : 2rem 0;
+}
+
+.card #img-content button {
+    margin-top : 10px;
+    border: 1px solid #212529 !important;
+    color: #212529;
+    height: 40px
+}
+
+.card #img-content button:hover {
+    border: 1px solid #212529 !important;
+    color: #fff;
+    height: 40px;
+    background-color: #212529
+}
+
+
+.card:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background-color: #667380;
+    transform: scaleY(1);
+    transition: all 0.5s;
+    transform-origin: bottom
+}
+
+.card:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background-color: #212529;
+    transform: scaleY(0);
+    transition: all 0.5s;
+    transform-origin: bottom
+}
+
+.card:hover::after {
+    transform: scaleY(1)
+}
+
+.fonts {
+    font-size: 11px
+}
+
+.social-list {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    padding: 0
+}
+
+.social-list li {
+    padding: 10px;
+    color: #212529;
+    font-size: 19px
+}
+
+.buttons button:nth-child(1) {
+    border: 1px solid #212529 !important;
+    color: #212529;
+    height: 40px
+}
+
+.buttons button:nth-child(1):hover {
+    border: 1px solid #212529 !important;
+    color: #fff;
+    height: 40px;
+    background-color: #212529
+}
+
+.buttons button:nth-child(2) {
+    border: 1px solid #212529 !important;
+    background-color: #212529;
+    color: #fff;
+    height: 40px
+}
+.buttons button:nth-child(2):hover {
+    border: 1px solid #212529 !important;
+    color: #212529;
+    height: 40px;
+    background-color: white
+}
+
+
+#diary-content{
+    display: flex;
+    flex-direction : column;
+    padding-bottom : 20px;
+    margin-bottom : 20px;
+    border-bottom : 2px solid rgb(0,0,0,0.1);
+}
+
+#diary-content #title{
+    display: flex;
+    flex-direction : row;
+    justify-content : space-between; 
+}
+#diary-content #write{
+    margin : 1rem 0rem;
+    padding : 5px;
+    display: flex;
+    height: 3rem;
+    width: 100%;
+    background-color: rgb(0,0,0,0.1);
+    border-radius : 0.4rem;
+}
+#diary-content #delete{
+    display : flex;
+    justify-content: flex-end;
+}
+
+#diary-content #delete  button:nth-child(1) {
+
+    border: 1px solid #212529 !important;
+    color: #212529;
+    height: 30px;
+    line-height: 10px;
+
+}
+
+#diary-content #delete  button:nth-child(1):hover {
+    border: 1px solid #212529 !important;
+    color: #fff;
+    height: 30px;
+    background-color: #212529
+}

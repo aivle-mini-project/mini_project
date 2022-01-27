@@ -1,11 +1,9 @@
-from datetime import date
 from django.shortcuts import render
-
-from diary.models import DiaryDetail
-from diary.views import detail
+from diary.models import Diary
+from EDuser.models import Eduser
 
 # Create your views here.
 def Cal(request):
-    emo = DiaryDetail.objects.all()
-
-    return render(request,'calpage/cal.html', {'data':emo})
+    user=(request.session['username'])
+    emo = Eduser.objects.get(username=request.session.get('username')).diary_set.all()
+    return render(request,'calpage/cal.html', {'user':user,'data':emo})
