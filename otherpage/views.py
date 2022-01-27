@@ -65,6 +65,8 @@ def show_date_keyword(request):
         pushdata = {}
         pushdata['select_date'] = select_date['select_data']
         pushdata['result_data'] = []
+        print(temp_data)
+
         for diary_data in temp_data:
             diary_d_datas = diary_data.diarydetail_set.all()
             for diary_d_data in diary_d_datas:
@@ -90,6 +92,7 @@ def show_date_keyword(request):
         temp_data = Diary.objects.filter(register_date__range=[today.strftime(
             '%Y-%m-%d 0:0'), today.strftime('%Y-%m-%d 11:59')])
         pushdata = []
+        print(temp_data)
         for diary_data in temp_data:
             diary_d_datas = diary_data.diarydetail_set.all()
             for diary_d_data in diary_d_datas:

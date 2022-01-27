@@ -42,9 +42,9 @@ def mypage(request):
     img = str(Eduser.objects.get(
         username=request.session.get('username')).profile_img)
     if img:
-        img = "http://127.0.0.1:8000/media/" + img + "/"
+        img = "/media/" + img + "/"
     else:
-        img = "http://127.0.0.1:8000/media/profile/default.png/"
+        img = "/media/profile/default.png/"
     return render(request, 'mypage/mypage.html', {'user': user, 'img': img, 'ex_len': ex_len, 'my_len': my_len})
 
 
@@ -64,7 +64,7 @@ def mydiary(request):
         username=request.session.get('username')).diary_set.all()
     img = str(Eduser.objects.get(
         username=request.session.get('username')).profile_img)
-    img = "http://127.0.0.1:8000/media/" + img + "/"
+    img = "/media/" + img + "/"
     # expressions = Eduser.Diary_set.all()
     datas = expressions.order_by('-register_date')
 
