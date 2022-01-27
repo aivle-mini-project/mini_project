@@ -132,19 +132,20 @@ let page = 1
 let int = 1
 renderPage(page)
 function renderPage(pages){
-  fetch(`http://127.0.0.1:8000/boardapi/?page=${pages}`)
+  fetch(`/boardapi/?page=${pages}`)
   .then((response) => response.json())
   .then((result) => {
     for(let i = 0; i<result.results.length; i++){
       const item = document.createElement('div')
       item.className = 'diary';
       let writer_info = JSON.stringify(result.results[i].writer).replaceAll('"','').split(' ')
-      let emo = parseInt(JSON.stringify(result.results[i].emotion).replaceAll('"',''))
-      if (emo ==1)
+      let emo = JSON.stringify(result.results[i].emotion).replaceAll('"','')
+      console.log(emo)
+      if (emo =='positive')
         emo = "😀"
-      else if (emo ==2)
+      else if (emo =='neutral')
         emo ="😐"
-      else if (emo ==3)
+      else if (emo =='negative')
         emo = "😥"
       else
         emo = " "
