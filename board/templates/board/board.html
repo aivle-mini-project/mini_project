@@ -170,18 +170,14 @@ function renderPage(pages){
       for(let i=0; i<expressions_profile.length; i++) {
         expressions_container.innerHTML += `<div class="expressions_imgbox"><img class='expressions_img' src="${expressions_profile[i].user.profile_img}"></div> `
       }
-      {% comment %} console.log("!"+expressions_profile) {% endcomment %}
       
       if (liked1.indexOf(result.results[i].id)+1) {
         item.innerHTML +=(`
         <div class='diary_item expression${result.results[i].id}box'>
           <div class="expression expression${result.results[i].id}" style="color:#96d4c3">좋아요 ${JSON.stringify(result.results[i].expressions.length)}</div>
-          
         </div>
         `)  
-        container.append(item)
         let expressionbox = document.querySelector(`.expression${result.results[i].id}box`)
-        console.log(expressionbox)
         expressionbox.append(expressions_container)
         let expression = document.querySelector(`.expression${result.results[i].id}`)
         expression.addEventListener('click', ()=> {alert('좋아요는 한번만 가능합니다.')})
@@ -192,9 +188,7 @@ function renderPage(pages){
           <div class="expression expression${result.results[i].id}">좋아요 ${JSON.stringify(result.results[i].expressions.length)}</div>
         </div>
         `)  
-        container.append(item)
         let expressionbox = document.querySelector(`.expression${result.results[i].id}box`)
-        console.log(expressionbox)
         expressionbox.append(expressions_container)
         let expression = document.querySelector(`.expression${result.results[i].id}`)
         expression.addEventListener('click', ()=> {
@@ -219,6 +213,7 @@ function renderPage(pages){
           expression.innerHTML = '좋아요 ' + String(parseInt(expression.innerHTML.substring(4,))+1)+ '<hr>'
         }, {once:true})
       }
+      
     }
   })
   .catch((error) => {
