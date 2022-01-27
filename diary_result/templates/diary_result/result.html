@@ -1,0 +1,127 @@
+{% extends 'base/base.html' %}
+
+
+{% block contents %}
+<html>
+    <head>
+        <style type="text/css">
+            thead{ background-color: DIMGREY; }
+            tbody tr{ 
+                background-color: LightYellow;
+            }
+        </style>
+    </head>
+    <body>
+        {% comment %} 일기장 표 및 작성 {% endcomment %}
+        {% comment %} <div style="display: flex; justify-content: center;"> {% endcomment %}
+        {% comment %} <div style=" border: 3px solid #0a0a0a; border-radius:12px; width: 500px; height: 500px; margin: 50px; padding: 10px; content: center;"> {% endcomment %}
+        <div style=" width: 500px; margin: auto; margin-top:100px">
+            <table class="table table-bordered" id="input1">
+                <thead>
+                    <tr>
+                        <th colspan="2" width="120" height="40"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th colspan="2" width="120" height="40" ></th>
+                    </tr>
+                    <tr>
+                        <th width="120" height="40" >글 작성자</th>
+                        <th height="40" align="right">{{last_diary.writer}}</th>
+                    </tr>
+                    <tr>
+                        <th width="120" height="40" >작성 날짜</th>
+                        <th height="40" align="right">{{last_diary.register_date}}</th>
+                    </tr>
+                    <tr>
+                        <th width="120" height="40" >오늘의 기분</th>
+                        {% if last_diary.emotion == 'negative'%}
+                            <th height="40" >😥</th>
+                        {% elif last_diary.emotion == 'neutral'%}
+                            <th height="40">😐</th>
+                        {% else %}
+                            <th height="40">😊</th>
+                        {%endif%}
+                    </tr>
+                    <tr>
+                        <th width="120" height="40"></th>
+                        <td></td>
+                    </tr>
+                    <script>
+                        let str = "";
+                        let highlightList = []
+                        let write = []
+                        let t = 0
+                        let emotionList = []
+                    </script>
+                    {% for diary_detail in last_diary.diarydetail_set.all %}
+                        <script>
+                            str = "{{diary_detail.write}}";
+                            highlightList = []
+                            {% for highlight in diary_detail.diarydetailhighlight_set.all %}
+                                highlightList.push(str.substr({{highlight.offset}}, {{highlight.length}}))
+                            {% endfor %}
+                            for(let i=0; i<highlightList.length; i++) {
+                                if ("{{diary_detail.emotion}}"=='negative') {
+                                    str = str.replaceAll(highlightList[i], `<span style="background-color:#ffc4c2">${highlightList[i]}</span>`)
+                                } else if("{{diary_detail.emotion}}"=='positive') {
+                                    str = str.replaceAll(highlightList[i], `<span style="background-color:powderblue">${highlightList[i]}</span>`)
+                                }
+                            }
+                            console.log(str)
+                            write.push(str)
+                            {% comment %} document.write('<td>'str+'</td>') {% endcomment %}
+                        </script>
+                    {%endfor%}
+                    {% comment %} 일기 문장 & 하이라이트 {% endcomment %}
+                    {% for i in diary_list %} 
+                        <tr>
+                            <th width="120" height="40" text-align="right">
+                                    {% if i.emotion == 'negative'%}<div align = "right">😥</div>
+                                    {% elif i.emotion == 'positive'%}<div align = "right">😊</div>
+                                    {% else %}<div align = "right">😐</div>
+                                    {% endif %}
+                            </th>
+                                <td>
+                                <script>
+                                    document.write(write[t])
+                                    t++
+                                </script>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <th width="120" height="40"></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td width="120" height="40"><div align = right>해시 태그</div></td>
+                        <th>
+                            <form action="/diary_result/" method="post">
+                                {% csrf_token %}
+                                <input type = "text" name = "tags_input">
+                                <input type="submit" value="등록">
+                            </form>   
+                        </th>
+                    </tr>
+                    <tr>
+                        <td width="120" height="40"><div align = right>#</div></td>
+                        <td>
+                            {%if tag_list %}
+                                {% for tag in tag_list %}
+                                    <a href="./tagboard/{{tag.tag}}" style='text-decoration-line: none;'>
+                                            {{ tag.tag }}
+                                    </a>
+                                {% endfor%}
+                            {% endif %} 
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
+
+
+{% endblock contents %}

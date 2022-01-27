@@ -35,6 +35,7 @@ urlpatterns = [
     path('boardapi/',include('boardAPI.urls')),
     path('board/',include('board.urls')),
     path('diary/',include('diary.urls')),
+    path('diary_result/',include('diary_result.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

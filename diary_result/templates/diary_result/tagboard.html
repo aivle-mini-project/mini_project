@@ -1,0 +1,86 @@
+{% extends 'base/base.html' %}
+{% comment %} {%load diary_format %} {% endcomment %}
+
+
+{% block head %}
+    <style type="text/css">
+
+    thead{ background-color: DIMGREY; }
+    tbody tr{ 
+        background-color: LightYellow;
+    }
+    </style>
+{% endblock head %}
+
+
+{% block contents %}
+
+<div style=" width: 500px; margin: auto; margin-top:100px">
+    {% for tag in tags %}
+    <table class="table table-bordered" id="input1">
+        <thead>
+            <tr>
+                <th colspan="2" width="120" height="40"></th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <th colspan="2" width="120" height="40" ></th>
+
+            </tr>
+
+            <tr>
+                <th width="120" height="40" >글 작성자</th>
+                <th height="40" align="right">{{ tag.diary.writer }}</th>
+            </tr>
+
+            <tr>
+                <th width="120" height="40" >작성 날짜</th>
+                <th height="40" align="right">{{ tag.diary.register_date }}</th>
+            </tr>
+
+            <tr>
+                <th width="120" height="40" >오늘의 기분</th>
+                {% if tag.diary.emotion  == 'negative'%}
+                    <th height="40" >😥</th>
+                {% elif tag.diary.emotion == 'neutral'%}
+                    <th height="40">😐</th>
+                {% else %}
+                    <th height="40">😊</th>
+                {%endif%}
+            </tr>
+
+            <tr>
+                <th width="120" height="40"></th>
+                <td></td>
+            </tr>
+
+            {% comment %} 문장 단위 {% endcomment %}
+            {% for diary_detail in tag.diary.diarydetail_set.all %}
+                <tr>
+                    <th width="120" height="40" text-align="right">
+                            {% if diary_detail.emotion == 'negative'%}<div align = "right">😥</div>
+                            {% elif diary_detail.emotion == 'positive'%}<div align = "right">😊</div>
+                            {% else %}<div align = "right">😐</div>
+                            {%endif%}
+                    </th>
+                    <th height="40">{{diary_detail.write}}</th>
+                    {% comment %} <span style='color:red'>{{i.write}}</span>  {% endcomment %}
+                    
+                </tr>
+            {% endfor %}
+                
+
+            <tr>
+                <th width="120" height="40"></th>
+                <th></th>
+            </tr>
+
+
+        </tbody>
+    </table>
+
+{% endfor %}
+</div>
+{% endblock contents %}
