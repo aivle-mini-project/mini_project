@@ -85,8 +85,8 @@ function goToday() {
 };
 
 // 현재 표시 달 가져오기
-function send(){
-    return mon;
+function send(a){
+    console.log(a);
 }
 
 //날짜를 받아서 달력에 날짜와 기분 표현
