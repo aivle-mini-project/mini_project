@@ -7,7 +7,6 @@
     flex-wrap: wrap;
     justify-content:center;
     align-items:center;
-
   }
   
   .diary_container {
@@ -15,19 +14,83 @@
     margin-top:50px;
   }
   .diary {
+    display:flex;
+    flex-wrap:wrap;
     width:100%;
     margin-bottom:50px;
-    padding: 10px;
     border: 1px solid lightgray;
-    border-radius: 10px
+    background-color:rgb(255, 251, 237);
   }
-  
+  .diary_top {
+    width:100%;
+    height:30px;
+    background-color:lightgray;
+  }
+  .diary_item {
+    width:100%;
+    height: 40px;
+    display:flex;
+    align-items: center;
+    border-top: 0.5px solid lightgray;
+    padding: 10px;
+  }
+
+  .diary_item__writer {
+    height: 70px;
+    align-items: center;
+  }
+
+  .diary_item__write {
+    height: 300px;
+    align-items: start;
+  }
+  .profile_box {
+    height: 50px; 
+    width: 50px;
+    border-radius: 70%;
+    overflow: hidden;
+  }
+  .profile {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .diary_item__writer__text {
+    margin-left:10px;
+    display:flex;
+    align-items: center;
+  }
+  .expression {
+    display:flex;
+    align-items: center;
+    height:100%;
+  }
+  .expressions_imgcontainer {
+    margin-left: 30px;
+    display: flex;
+    height: 20px;
+    width: 80%;
+    flex-wrap: wrap;
+  }
+  .expressions_imgbox {
+    height: 20px; 
+    width: 20px;
+    border-radius: 70%;
+    overflow: hidden;
+  }
+  .expressions_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
 </style>
 {% endblock head %}
 
 {% block contents %}
 <p class='username' style='display:none'>{{ username }}</p>
 <p class='liked' style='display:none'>{% for like in liked %}{{ like.diary.id }} {% endfor %}
+<p class="imglink" style="display:none">/media/{{user.profile_img}}</p>
 {% endblock contents %}
 
 
@@ -55,10 +118,11 @@ const main = document.querySelector('main')
 const liked = (document.querySelector('.liked').innerHTML).split(' ')
 liked.pop()
 const liked1 = liked.map(x => parseInt(x))
-console.log(liked)
+const img_link = document.querySelector('.imglink').innerHTML
+{% comment %} console.log(liked) {% endcomment %}
 
 const username = document.querySelector('.username').innerHTML
-
+const default_img = '/media/profile/default.png'
 
 container.className = 'diary_container';
 main.append(container)
@@ -74,29 +138,64 @@ function renderPage(pages){
     for(let i = 0; i<result.results.length; i++){
       const item = document.createElement('div')
       item.className = 'diary';
+      let writer_info = JSON.stringify(result.results[i].writer).replaceAll('"','').split(' ')
+      let emo = parseInt(JSON.stringify(result.results[i].emotion).replaceAll('"',''))
+      if (emo ==1)
+        emo = "😀"
+      else if (emo ==2)
+        emo ="😐"
+      else if (emo ==3)
+        emo = "😥"
+      else
+        emo = " "
       item.innerHTML =(`
-        <div class="diary_item">작성자 : ${JSON.stringify(result.results[i].writer)}<hr></div>
-        <div class="diary_item">일기 : ${JSON.stringify(result.results[i].write)}<hr></div>
-        <div class="diary_item">감정 : ${JSON.stringify(result.results[i].emotion)}<hr></div>
-        <div class="diary_item">중립 : ${JSON.stringify(result.results[i].neutral)}<hr></div>
-        <div class="diary_item">긍정 : ${JSON.stringify(result.results[i].positive)}<hr></div>
-        <div class="diary_item">부정 : ${JSON.stringify(result.results[i].negative)}<hr></div>
-        <div class="diary_item">작성일 : ${JSON.stringify(result.results[i].register_date).substring(1,11)}<hr></div>
+        <div class="diary_top"></div>
+        <div class="diary_item diary_item__writer">
+          <div class="profile_box" style="background: #BDBDBD;">
+            <img class="profile" src="${writer_info[1]!=''?'/media/'+ writer_info[1] : default_img}">
+          </div>
+          <div class="diary_item__writer__text">${writer_info[0]}</div> 
+          
+        </div>
+        <div class="diary_item diary_item__write">${JSON.stringify(result.results[i].write).replaceAll('"','')}</div>
+        <div class="diary_item">오늘 나의 감정은? ${emo}</div>
+        <div class="diary_item">작성일 : ${JSON.stringify(result.results[i].register_date).substring(1,11)}</div>
       `)
+      
+
+      let expressions_profile = result.results[i].expressions
+      console.log(expressions_profile.length)
+      let expressions_container = document.createElement('div')
+      expressions_container.className = 'expressions_imgcontainer' 
+      for(let i=0; i<expressions_profile.length; i++) {
+        expressions_container.innerHTML += `<div class="expressions_imgbox"><img class='expressions_img' src="${expressions_profile[i].user.profile_img}"></div> `
+      }
+      {% comment %} console.log("!"+expressions_profile) {% endcomment %}
       
       if (liked1.indexOf(result.results[i].id)+1) {
         item.innerHTML +=(`
-          <div class="diary_item expression${result.results[i].id}" style="color:red">좋아요 : ${JSON.stringify(result.results[i].expressions.length)}<hr></div>
+        <div class='diary_item expression${result.results[i].id}box'>
+          <div class="expression expression${result.results[i].id}" style="color:#96d4c3">좋아요 ${JSON.stringify(result.results[i].expressions.length)}</div>
+          
+        </div>
         `)  
         container.append(item)
+        let expressionbox = document.querySelector(`.expression${result.results[i].id}box`)
+        console.log(expressionbox)
+        expressionbox.append(expressions_container)
         let expression = document.querySelector(`.expression${result.results[i].id}`)
         expression.addEventListener('click', ()=> {alert('좋아요는 한번만 가능합니다.')})
 
       } else {
         item.innerHTML +=(`
-          <div class="diary_item expression${result.results[i].id}">좋아요 : ${JSON.stringify(result.results[i].expressions.length)}<hr></div>
+        <div class='diary_item expression${result.results[i].id}box'>
+          <div class="expression expression${result.results[i].id}">좋아요 ${JSON.stringify(result.results[i].expressions.length)}</div>
+        </div>
         `)  
         container.append(item)
+        let expressionbox = document.querySelector(`.expression${result.results[i].id}box`)
+        console.log(expressionbox)
+        expressionbox.append(expressions_container)
         let expression = document.querySelector(`.expression${result.results[i].id}`)
         expression.addEventListener('click', ()=> {
           const csrftoken = getCookie('csrftoken');
@@ -116,13 +215,14 @@ function renderPage(pages){
             console.log(result.data);
           }); 
           expression.addEventListener('click', ()=> {alert('이미 좋아요 누르셨습니다.')})
-          expression.style.color = 'red'
-          expression.innerHTML = '좋아요 : ' + String(parseInt(expression.innerHTML.substring(5,))+1)+ '<hr>'
+          expression.style.color = '#96d4c3'
+          expression.innerHTML = '좋아요 ' + String(parseInt(expression.innerHTML.substring(4,))+1)+ '<hr>'
         }, {once:true})
       }
     }
   })
   .catch((error) => {
+    console.log(error)
     window.removeEventListener('scroll', scrollEvent)
     const item = document.createElement('div')
     item.innerHTML =(`

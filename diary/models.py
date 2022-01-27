@@ -8,7 +8,7 @@ from .validation import validate_sentence
 
 
 class Diary(models.Model):
-  writer = models.ForeignKey(Eduser, on_delete=models.SET_NULL, null=True) 
+  writer = models.ForeignKey(Eduser, on_delete=models.CASCADE, null=True) 
   write = models.TextField(max_length = 100, 
                           verbose_name='일기', 
                           validators=[validate_sentence])
@@ -22,6 +22,7 @@ class Diary(models.Model):
     db_table = 'diary'
     verbose_name = '일기'
     verbose_name_plural = '일기'
+    ordering = ['-id']
 
   def __str__(self):
     return str(self.writer)
@@ -67,3 +68,4 @@ class Expression(models.Model):
     db_table='expression'
     verbose_name = '좋아요'
     verbose_name_plural = '좋아요'
+    
