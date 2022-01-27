@@ -59,13 +59,9 @@ INSTALLED_APPS = [
     'bootstrap4',
     'rest_framework',
     'otherpage',
-    'diary_result',
-    'taggit.apps.TaggitAppConfig',
-    'taggit_templatetags2',
+    'calpage',
+    'mypage',
 ]
-
-TAGGIT_CASE_INSENSITIVE = True
-TAGGIT_LIMIT = 50
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -111,7 +107,7 @@ DATABASES = {
         'NAME': 'Emotics',
         'USER': 'Emotics',
         'PASSWORD': 'ETSU1995',
-        'HOST': '15.164.153.191',
+        'HOST': '13.125.52.234',
         'PORT': 3306
     }
 }
@@ -143,11 +139,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

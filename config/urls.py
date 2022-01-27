@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 from .views import showIndex
 from EDuser.views import RegisterView, RegisterProfileView, toRegisterProfile, LoginView, logout
-
+from calpage.views import Cal
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,7 +35,8 @@ urlpatterns = [
     path('boardapi/',include('boardAPI.urls')),
     path('board/',include('board.urls')),
     path('diary/',include('diary.urls')),
-    path('diary_result/',include('diary_result.urls')),
+    path('calpage/', Cal),
+    path('mypage/', include('mypage.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
