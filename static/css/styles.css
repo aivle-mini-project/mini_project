@@ -11701,3 +11701,21 @@ body {
   font-size: 0.75rem;
   border-radius: 0.25rem !important;
 }
+
+/* Nav */
+
+#user_id{
+  list-style : none;
+  font-family: 'Noto Sans KR', sans-serif;
+  color : white;
+}
+
+#logout{
+  text-decoration : none;
+  border-bottom : 1px solid rgb(255,255,255,0.5);
+  padding-top : 8px;
+  margin-right : 10px;
+  font-size : 0.8rem;
+  font-family: 'Noto Sans KR', sans-serif;
+  color : white;
+}
