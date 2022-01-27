@@ -1,0 +1,1 @@
+{"document": {"sentiment": "negative", "confidence": {"negative": 99.98577, "positive": 0.0040837494, "neutral": 0.0101450095}}, "sentences": [{"content": "\uc544 \ub108\ubb34 \ud654\ub098!", "offset": 0, "length": 8, "sentiment": "negative", "confidence": {"negative": 0.9991462, "positive": 0.00024502497, "neutral": 0.00060870056}, "highlights": [{"offset": 0, "length": 7}]}]}
