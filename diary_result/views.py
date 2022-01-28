@@ -25,9 +25,11 @@ def index(request):
     if request.method == "POST": 
         tags = request.POST.get('tags_input') 
         tags = tags.split(' ')
+
         for tag in tags:
-            if not Tag.objects.filter(tag = tag):
+            if not Tag.objects.filter(diary=last_diary, tag=tag):
                 Tag.objects.create(diary=last_diary, tag=tag)
+
         tag_list = Tag.objects.filter(diary=last_diary)
         return render(request,'diary_result/result.html', {'last_diary':last_diary, 'diary_list':diary_list, 'highlight':highlight, 'tag_list':tag_list})
     else:
