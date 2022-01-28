@@ -55,6 +55,7 @@
                         let t = 0
                         let emotionList = []
                     </script>
+
                     {% for diary_detail in last_diary.diarydetail_set.all %}
                         <script>
                             str = "{{diary_detail.write}}";
@@ -74,6 +75,7 @@
                             {% comment %} document.write('<td>'str+'</td>') {% endcomment %}
                         </script>
                     {%endfor%}
+
                     {% comment %} 일기 문장 & 하이라이트 {% endcomment %}
                     {% for i in diary_list %} 
                         <tr>
@@ -83,7 +85,8 @@
                                     {% else %}<div align = "right">😐</div>
                                     {% endif %}
                             </th>
-                                <td>
+                            
+                            <td>
                                 <script>
                                     document.write(write[t])
                                     t++
@@ -91,10 +94,14 @@
                             </td>
                         </tr>
                     {% endfor %}
+
+
                     <tr>
                         <th width="120" height="40"></th>
                         <th></th>
                     </tr>
+
+                    {% comment %} 해시태그 등록하기 {% endcomment %}
                     <tr>
                         <td width="120" height="40"><div align = right>해시 태그</div></td>
                         <th>
@@ -105,17 +112,21 @@
                             </form>   
                         </th>
                     </tr>
+
+
+                    {% comment %} 등록한 해시태그 {% endcomment %}
                     <tr>
-                        <td width="120" height="40"><div align = right>#</div></td>
-                        <td>
+                        <td width="120" height="40"><div align = right style='color:#0D6EFD;'></div></td>
+                        <th>
                             {%if tag_list %}
                                 {% for tag in tag_list %}
-                                    <a href="./tagboard/{{tag.tag}}" style='text-decoration-line: none;'>
-                                            {{ tag.tag }}
+                                    <a href="./tagboard/{{tag.tag}}" style='text-decoration-line: none; color:#0D6EFD;'>
+                                            #{{ tag.tag }}
                                     </a>
                                 {% endfor%}
+
                             {% endif %} 
-                        </td>
+                        </th>
                     </tr>
                 </tbody>
             </table>

@@ -1,9 +1,5 @@
 from django.db import models
-from taggit.managers import TaggableManager
 from diary.models import Diary
-
-class tagmodel(models.Model):
-    tags = TaggableManager(blank=True)
     
 
 class Tag(models.Model):

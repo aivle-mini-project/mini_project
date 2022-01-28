@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'EDuser',
     'diary',
+    'diary_result',
     'board',
     'bootstrap4',
     'rest_framework',

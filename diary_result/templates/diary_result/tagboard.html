@@ -14,73 +14,99 @@
 
 
 {% block contents %}
+    
+    <div style=" width: 500px; margin: auto; margin-top:100px">
+        
+        {% for tag in tags %}
 
-<div style=" width: 500px; margin: auto; margin-top:100px">
-    {% for tag in tags %}
-    <table class="table table-bordered" id="input1">
-        <thead>
-            <tr>
-                <th colspan="2" width="120" height="40"></th>
-            </tr>
-        </thead>
-        <tbody>
-            
-            <tr>
-                <th colspan="2" width="120" height="40" ></th>
-
-            </tr>
-
-            <tr>
-                <th width="120" height="40" >글 작성자</th>
-                <th height="40" align="right">{{ tag.diary.writer }}</th>
-            </tr>
-
-            <tr>
-                <th width="120" height="40" >작성 날짜</th>
-                <th height="40" align="right">{{ tag.diary.register_date }}</th>
-            </tr>
-
-            <tr>
-                <th width="120" height="40" >오늘의 기분</th>
-                {% if tag.diary.emotion  == 'negative'%}
-                    <th height="40" >😥</th>
-                {% elif tag.diary.emotion == 'neutral'%}
-                    <th height="40">😐</th>
-                {% else %}
-                    <th height="40">😊</th>
-                {%endif%}
-            </tr>
-
-            <tr>
-                <th width="120" height="40"></th>
-                <td></td>
-            </tr>
-
-            {% comment %} 문장 단위 {% endcomment %}
-            {% for diary_detail in tag.diary.diarydetail_set.all %}
-                <tr>
-                    <th width="120" height="40" text-align="right">
-                            {% if diary_detail.emotion == 'negative'%}<div align = "right">😥</div>
-                            {% elif diary_detail.emotion == 'positive'%}<div align = "right">😊</div>
-                            {% else %}<div align = "right">😐</div>
-                            {%endif%}
-                    </th>
-                    <th height="40">{{diary_detail.write}}</th>
-                    {% comment %} <span style='color:red'>{{i.write}}</span>  {% endcomment %}
+                <table class="table table-bordered" id="input1">
+                    <thead>
+                        <tr>
+                            <th colspan="2" width="120" height="40"></th>
+                        </tr>
+                    </thead>
                     
-                </tr>
-            {% endfor %}
-                
+                    <tbody>
+                        
+                        <tr>
+                            <th colspan="2" width="120" height="40" ></th>
 
-            <tr>
-                <th width="120" height="40"></th>
-                <th></th>
-            </tr>
+                        </tr>
 
+                        <tr>
+                            <th width="120" height="40" >글 작성자</th>
+                            <th height="40" align="right">{{ tag.diary.writer }}</th>
+                        </tr>
 
-        </tbody>
-    </table>
+                        <tr>
+                            <th width="120" height="40" >작성 날짜</th>
+                            <th height="40" align="right">{{ tag.diary.register_date }}</th>
+                        </tr>
 
-{% endfor %}
-</div>
+                        <tr>
+                            <th width="120" height="40" >오늘의 기분</th>
+                            {% if tag.diary.emotion  == 'negative'%}
+                                <th height="40" >😥</th>
+                            {% elif tag.diary.emotion == 'positive'%}
+                                <th height="40">😊</th>
+                            {% else %}
+                                <th height="40">😐</th>
+                            {%endif%}
+
+                        </tr>
+
+                        <tr>
+                            <th width="120" height="40"></th>
+                            <td></td>
+                        </tr>
+
+                        {% comment %} 문장 단위 {% endcomment %}
+                        {% for diary_detail in tag.diary.diarydetail_set.all %}
+                            <tr>
+                                <th width="120" height="40" text-align="right">
+                                        {% if diary_detail.emotion == 'negative'%}<div align = "right">😥</div>
+                                        {% elif diary_detail.emotion == 'positive'%}<div align = "right">😊</div>
+                                        {% else %}<div align = "right">😐</div>
+                                        {% endif %}
+                                </th>
+                                <td height="40">{{diary_detail.write}}</td>
+                                {% comment %} <span style='color:red'>{{i.write}}</span>  {% endcomment %}
+                                
+                            </tr>
+                        {% endfor %}
+
+                        <tr>
+                            <th width="120" height="40"></th>
+                            <th></th>
+                        </tr>
+                        
+                        <tr>
+                            <th width="120" height="40" ><div align = right style='color:#0D6EFD;'></div></th>
+                            
+                                <th>
+                                    {%for tag_name in tag.diary.tag_set.all%}
+                                    
+                                        <a href="../{{tag_name.tag}}" style='text-decoration-line: none; color:#0D6EFD;'>
+                                            #{{ tag_name.tag }}
+                                        </a>
+                                    {% endfor %}
+                                </th>
+                                
+                        </tr>
+                        
+
+                        <tr>
+                            <th width="120" height="40"></th>
+                            <th></th>
+                        </tr>
+
+                        
+
+                    </tbody>
+                </table>
+
+        {% endfor %}
+    </div>
+    
+    
 {% endblock contents %}
