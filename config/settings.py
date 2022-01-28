@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'EDuser',
     'diary',
+    'diary_result',
     'board',
     'bootstrap4',
     'rest_framework',
