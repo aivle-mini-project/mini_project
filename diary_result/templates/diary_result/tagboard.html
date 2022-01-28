@@ -1,8 +1,9 @@
 {% extends 'base/base.html' %}
 {% comment %} {%load diary_format %} {% endcomment %}
 
-
+{% load static %}
 {% block head %}
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
     <style type="text/css">
 
     thead{ background-color: DIMGREY; }
@@ -109,6 +110,12 @@
 
         {% endfor %}
     </div>
-    
+    <section id="Title1">
+        <div class="title-content" data-aos="fade-up" >
+            <div class ="check">
+                <a href="/diary_result" class="btn-login scrollto"/>돌아가기</a>
+            </div>
+        </div> 
+    </section>
     
 {% endblock contents %}
