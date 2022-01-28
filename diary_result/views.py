@@ -22,6 +22,7 @@ def index(request):
     diary_list = last_diary.diarydetail_set.all()
     highlight = DiaryDetailHighlight.objects.all()
 
+
     if request.method == "POST": 
         tags = request.POST.get('tags_input') 
         tags = tags.split(' ')
@@ -35,6 +36,7 @@ def index(request):
     else:
         tag_list = Tag.objects.filter(diary=last_diary)
         return render(request,'diary_result/result.html', {'last_diary':last_diary, 'diary_list':diary_list, 'highlight':highlight, 'tag_list':tag_list})
+        
 
 def tagBoard(request, tag):
     tags = Tag.objects.filter(tag=tag)

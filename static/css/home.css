@@ -237,3 +237,84 @@
 #helloworld{
   font-family: 'Noto Sans KR', sans-serif;
 }
+/* result-page */
+
+/* result-page */
+
+#Title1 {
+  width: 100%;
+  background-color : rgb(33,37,41,0.1);
+  position: relative;
+  height: 20vh;
+  padding: 0;
+}
+#Title1 .title-content {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+#Title1 .title-content .t1 {
+  color: black;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+#Title1 .title-content .name {
+  margin-top: 3rem;
+  font-size: 4rem;
+  font-weight: 700;
+  color: black;
+}
+#Title1 .title-content .t2 {
+  color: black;
+  margin-bottom: 4rem;
+  font-size: 2rem;
+  font-family: 'Cabin Sketch';
+}
+@media (max-width: 767px) {
+  #Title1 .title-content .t1 {
+    font-size: 34px;
+  }
+}
+
+#Title1 .title-content .btn-login, #Title1 .title-content .btn-register {
+  font-family: "Raleway", sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 10px 32px;
+  border-radius: 2px;
+  transition: 0.5s;
+  margin: 10px;
+  color: #fff;
+  text-decoration: none;
+}
+
+#Title1 .title-content .btn-login {
+  background: #212529;
+  border: 2px solid #212529;
+}
+#Title1 .title-content .btn-login:hover {
+  background: none;
+  color: #212529;
+}
+#Title1 .title-content .btn-register {
+  background: white;
+  color: #212529;
+  border: 2px solid #212529;
+}
+#Title1 .title-content .btn-register:hover {
+  background: none;
+  color: #212529;
+
+}

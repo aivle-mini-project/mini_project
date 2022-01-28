@@ -108,7 +108,7 @@ def detail(request):
                     #timezone.now().strftime("%Y-%m-%d")
                     d = Diary(writer = writer, write =text, emotion = result['document']['sentiment'], neutral =result['document']['confidence']['neutral'],positive =result['document']['confidence']['positive'],negative =result['document']['confidence']['negative'],register_date =timezone.now())
                     d.save()
-                    diary_id = Diary.objects.last().id
+                    diary_id = Diary.objects.first().id
                     diary= Diary.objects.get(id =diary_id)
                     for sentence in result['sentences']:
                         diary_tree = sentence['content']
@@ -120,7 +120,7 @@ def detail(request):
                             dth = DiaryDetailHighlight(diary_detail = diary_detail,offset =highlight['offset'],length=highlight['length'])
                             dth.save()
                     #return render(request,'diary/diary_detail.html',result)
-                    return HttpResponseRedirect('/diary/result/')
+                    return HttpResponseRedirect('/diary_result/')
                 else:
                     if res.status_code == 500:
                         return render(request,'diary/500.html',result)
@@ -191,7 +191,7 @@ def edit(request):
         #print(diary.write,'diaryfirst')#방금 쓴거
         #print(diary_total.last().write,'diarylast')#처음에 쓴거
         if len(diary_total) ==1:
-            return HttpResponseRedirect('/diary/list/')
+            return HttpResponseRedirect('/mypage/mydiary/')
         elif len(diary_total)>1:
             diary_text = diary_total.last()
             print('delte 2over' )
