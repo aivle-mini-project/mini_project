@@ -37,6 +37,7 @@ urlpatterns = [
     path('diary/',include('diary.urls')),
     path('calpage/', Cal),
     path('mypage/', include('mypage.urls')),
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

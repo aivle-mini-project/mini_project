@@ -119,7 +119,8 @@ def detail(request):
                         for highlight in sentence['highlights']:
                             dth = DiaryDetailHighlight(diary_detail = diary_detail,offset =highlight['offset'],length=highlight['length'])
                             dth.save()
-                    return render(request,'diary/diary_detail.html',result)
+                    #return render(request,'diary/diary_detail.html',result)
+                    return HttpResponseRedirect('/diary/result/')
                 else:
                     if res.status_code == 500:
                         return render(request,'diary/500.html',result)
