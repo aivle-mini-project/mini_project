@@ -1,10 +1,16 @@
 {% extends 'base/base.html' %}
-
-
+{% load static %}
+{% block head %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
+{% endblock head %}
 {% block contents %}
 <html>
     <head>
         <style type="text/css">
+            .check{
+                display : flex;
+                flex-direction : row;
+            }
             thead{ background-color: DIMGREY; }
             tbody tr{ 
                 background-color: LightYellow;
@@ -131,6 +137,21 @@
                 </tbody>
             </table>
         </div>
+        <section id="Title1">
+            <div class="title-content" data-aos="fade-up" >
+        <div class ="check">
+        <form action = '/diary/edit/' method = "POST">
+            {% csrf_token %}
+            <input id = 'input1' type = "submit" value = "일기 저장하기" class="btn-login scrollto"/>
+        </form>
+        <br>
+        <form action = '/diary/create/' method = "POST">
+            {% csrf_token %}
+            <input id = 'input1' type = "submit" value = "일기 다시쓰기" class="btn-login scrollto"/>
+        </form>
+        </div>
+    </div>
+    </section>
     </body>
 </html>
 

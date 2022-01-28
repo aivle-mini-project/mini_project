@@ -1,9 +1,13 @@
 {% extends 'base/base.html' %}
-
+{% load static %}
+{% block head %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
+{% endblock head %}
 {% block contents %}
 {% if request.session.username %}
     
 <!DOCTYPE html>
+
 <style>
     #write{
         width: 300px;
@@ -13,14 +17,7 @@
         border-right: none;
         border-bottom:  3px solid black;
     }
-    #input2{
-        width:  100px;
-        height: 55px;
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        border-bottom:  3px solid black;
-    }
+
 </style>
 <section id="Title">
     <div class="title-content" data-aos="fade-up" >
@@ -33,7 +30,7 @@
                 <input id = "write" type = "text" name = "write" placeholder="입력해주세요! " 
                     value="{{ form.write.value | default_if_none:'' }}">
 
-                <input id = 'input2' type = "submit"/>
+                <input id = 'input2' type = "submit" class="btn-login scrollto" />
                 <br>
                 <br>
                 <br>

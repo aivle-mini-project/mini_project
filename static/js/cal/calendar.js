@@ -184,7 +184,7 @@ function goToday() {
 };
 
 function emoji(a){
-    if(a =='netural')
+    if(a =='neutral')
         return '😐'
     else if(a=='positive')
         return '😀'
