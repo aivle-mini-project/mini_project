@@ -18,15 +18,18 @@ def index(request):
     user_id = request.session.get('userid') #세션으로부터 가져옴
     eduser = Eduser.objects.get(pk=user_id) #user_id를 기본키로함
     diary = Diary.objects.filter(writer= eduser)
-    last_diary = diary[len(diary)-1]
+    last_diary = diary[0]
     diary_list = last_diary.diarydetail_set.all()
     highlight = DiaryDetailHighlight.objects.all()
 
     if request.method == "POST": 
         tags = request.POST.get('tags_input') 
         tags = tags.split(' ')
+
         for tag in tags:
-            Tag.objects.create(diary=last_diary, tag=tag)
+            if not Tag.objects.filter(diary=last_diary, tag=tag):
+                Tag.objects.create(diary=last_diary, tag=tag)
+
         tag_list = Tag.objects.filter(diary=last_diary)
         return render(request,'diary_result/result.html', {'last_diary':last_diary, 'diary_list':diary_list, 'highlight':highlight, 'tag_list':tag_list})
     else:
@@ -39,5 +42,6 @@ def tagBoard(request, tag):
     print(tag)
     print(tag.diary)
     # diary_detail = DiaryDetail.objects.get(diary = tag.diary)
-    print(tag.diary.diarydetail_set.all()) 
+    print(tag.diary.diarydetail_set.all())
+
     return render(request, 'diary_result/tagboard.html', {'tags': tags})

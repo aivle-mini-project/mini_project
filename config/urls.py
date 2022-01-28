@@ -35,6 +35,7 @@ urlpatterns = [
     path('boardapi/',include('boardAPI.urls')),
     path('board/',include('board.urls')),
     path('diary/',include('diary.urls')),
+    path('diary_result/',include('diary_result.urls')),
     path('calpage/', Cal),
     path('mypage/', include('mypage.urls')),
     
