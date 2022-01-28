@@ -47,7 +47,9 @@ def RegisterProfileView(request):
             return redirect('/')
     else:
         form = ProfileForm()
-    return render(request, 'EDuser/register_profile.html', {'form': form})
+        eduser = Eduser.objects.get(username=request.session['username'])
+
+    return render(request, 'EDuser/register_profile.html', {'form': form, 'eduser':eduser})
 
 
 class LoginView(FormView):
