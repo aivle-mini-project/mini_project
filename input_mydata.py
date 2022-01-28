@@ -21,7 +21,7 @@ def random_date(year,month,day):#
 conn = sqlite3.connect("db.sqlite3")
 c = conn.cursor()
 #####dictionary 불러오는 부분)
-username = 'Jihoon' ###아이디 넣으세요
+username = 'test' ###아이디 넣으세요
 sql11=''
 for month in range(2,14):
     day = 0
