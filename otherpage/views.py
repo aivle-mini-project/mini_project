@@ -4,7 +4,7 @@ from diary.models import Diary, DiaryDetail, DiaryDetailHighlight
 from datetime import date, datetime, timedelta
 from django.forms.models import model_to_dict
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 
 # Create your views here.
 
@@ -61,11 +61,9 @@ def show_date_keyword(request):
         strpdate = datetime.strptime(select_date['select_data'], "%Y-%m-%d")
         temp_data = Diary.objects.filter(register_date__range=[strpdate.strftime(
             '%Y-%m-%d 0:0'), strpdate.strftime('%Y-%m-%d 23:59')])
-        print(len(temp_data))
         pushdata = {}
         pushdata['select_date'] = select_date['select_data']
         pushdata['result_data'] = []
-        print(temp_data)
 
         for diary_data in temp_data:
             diary_d_datas = diary_data.diarydetail_set.all()
@@ -90,9 +88,8 @@ def show_date_keyword(request):
         return JsonResponse(pushdata, safe=False)
     else:
         temp_data = Diary.objects.filter(register_date__range=[today.strftime(
-            '%Y-%m-%d 0:0'), today.strftime('%Y-%m-%d 11:59')])
+            '%Y-%m-%d 0:0'), today.strftime('%Y-%m-%d 23:59')])
         pushdata = []
-        print(temp_data)
         for diary_data in temp_data:
             diary_d_datas = diary_data.diarydetail_set.all()
             for diary_d_data in diary_d_datas:
@@ -155,3 +152,36 @@ def show_week(request):
         {'data': week_data,
          'today': today}
     )
+
+# 통계 갱신
+
+
+def renewal(request):
+    data_obj = Diary.objects.all()
+    for diary in data_obj:
+        statistics_obj = Statistics.objects.filter(emo_date__year=diary.register_date.year,
+                                                   emo_date__month=diary.register_date.month,
+                                                   emo_date__day=diary.register_date.day)
+
+        # 없으면 생성
+        datestr = diary.register_date.strftime("%Y-%m-%d")
+        if(len(statistics_obj) == 0):
+            d = Statistics(emo_date=datestr, positive=0, neutral=0, negative=0)
+            d.save()
+
+        # 다시 불러와서
+        statistics_obj = Statistics.objects.filter(emo_date__year=diary.register_date.year,
+                                                   emo_date__month=diary.register_date.month,
+                                                   emo_date__day=diary.register_date.day)
+        statistics_last = statistics_obj.last()
+        # 1증가시키기
+        if(str(diary.emotion) == "negative"):
+            statistics_last.negative += 1
+        elif(str(diary.emotion) == "positive"):
+            statistics_last.positive += 1
+        else:
+            statistics_last.neutral += 1
+
+        statistics_last.save()
+
+    return HttpResponse('<h1> 하이</h1>')
