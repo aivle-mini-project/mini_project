@@ -24,12 +24,21 @@
     .form-group {
         display:flex;
         justify-content:center; 
-        width: 80%;
+        width: 90%;
         height:40px;
         margin-top:15px;
         margin-bottom:15px;
     }
+    #image_container {
+        width:200px;
+        height:200px;
+    }
+    img {
+        width: 100%;
+        height: 100%;
+        border-radius: 80%;
 
+    }
 
 </style>
 {% endblock head %}
@@ -41,11 +50,21 @@
 <form method = "post" enctype="multipart/form-data">
     {% csrf_token %}
     
-    {% for field in form %}
+    {% for field in form %}    
+    {% if field.id_for_label == "id_profile_img" %}
+    <div id="image_container">
+        {% if eduser.profile_img %}
+        <img src="/media/{{eduser.profile_img }}" alt="">
+        {% else %}
+        <img src="/media/profile/default.png" alt="">
+        {% endif %}
+    </div>
+    {% endif %}
     <div class="form-group mb-3">
-        <input type="{{ field.field.widget.input_type}}" class="form-control" id="{{ field.id_for_label }}"
+        <input type="{{ field.field.widget.input_type}}" class="form-control" id="{{ field.id_for_label }}" 
          placeholder="{{ field.label }}" name="{{ field.name }}"/>
     </div>
+
     {% if field.errors %}
     <span style="color: red;"> {{ field.errors }}</span>
     {% endif %}
@@ -55,4 +74,17 @@
         <a href="{% url 'home' %}"><div class="btn btn-secondary">건너뛰기</div></a>
     </div>
 </form>
+<script>
+    document.querySelector('#id_profile_img').addEventListener('change', setThumbnail)
+    function setThumbnail(event) {
+        let reader = new FileReader(); 
+        reader.onload = function(event) { 
+            let img = document.querySelector("img"); 
+            img.setAttribute("src", event.target.result); 
+        }; 
+        reader.readAsDataURL(event.target.files[0]); 
+    }
+
+</script>
 {% endblock contents %}
+
