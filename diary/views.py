@@ -153,7 +153,7 @@ def list(request):
             diary = diary_list.filter(register_date__range=[timezone.now().strftime('%Y-%m-%d 0:0'), timezone.now().strftime('%Y-%m-%d 23:59')])
             diary =diary.last()
             format = ''
-            if '오후' in update_diary:
+            if '오후' in update_diary[5]:
                 format = '%Y년 %m월 %d일 %H:%M 오후'
             else:
                 format = '%Y년 %m월 %d일 %H:%M 오전'
