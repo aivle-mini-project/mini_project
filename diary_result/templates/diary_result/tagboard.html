@@ -16,6 +16,9 @@
 {% block contents %}
     
     <div style=" width: 500px; margin: auto; margin-top:100px">
+        <script>
+            let writer_count = 0
+        </script>
         {% for tag in tags %}
                 <table class="table table-bordered" id="input1">
                     <thead>
@@ -31,9 +34,10 @@
 
                         </tr>
 
+
                         <tr>
                             <th width="120" height="40" >글 작성자</th>
-                            <th height="40" align="right">{{ tag.diary.writer }}</th>
+                            <th id="writer" height="40" align="right">{{ tag.diary.writer.username }}</th>
                         </tr>
 
                         <tr>
