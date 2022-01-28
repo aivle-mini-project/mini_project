@@ -5,10 +5,6 @@
 {% endblock head %}
 
 {% block contents %}
-{% if username %}
-{{ username }}님, 안녕하세요
-<a href="{% url 'logout' %}">로그아웃</a>
-{% else %}
 <!-- Title Section -->
 <section id="Title">
     <div class="title-content" data-aos="fade-up">
@@ -16,8 +12,13 @@
         <h1 class="name">이모틱스</h1>
         <h2 class="t2">Emo-tics</h2>
         {% if username %}
+        <h5 class="helloworld">
         {{ username }}님, 안녕하세요
-        <a href="{% url 'logout' %}" class="btn-login scrollto">로그아웃</a>
+        </h5>
+        <div>
+        <a href="{% url 'diary:create' %}" class="btn-login scrollto">일기쓰기</a>
+        <a href="{% url 'diary:create' %}" class="btn-login scrollto">게시판</a>
+        </div>
         {% else %}
         <div>
             <a href="{% url 'login' %}" class="btn-login scrollto">로그인</a>
@@ -166,6 +167,5 @@
     </div>
 </section>
 <!-- Cooperation Tip Section -->
-{% endif %}
 
 {% endblock contents %}

@@ -1,3 +1,4 @@
+from genericpath import exists
 import profile
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
@@ -34,12 +35,14 @@ def toRegisterProfile(request):
 @login_required
 def RegisterProfileView(request):
     if request.method == 'POST':
+        
         form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
             eduser = Eduser.objects.get(username=request.session['username'])
-            print(form.cleaned_data['profile_img'])
+            if eduser.profile_img:
+                eduser.profile_img.delete()
+                eduser.save()
             eduser.profile_img = form.cleaned_data['profile_img']
-            print(eduser.profile_img.name)
             eduser.save()
             return redirect('/')
     else:

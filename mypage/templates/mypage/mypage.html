@@ -21,7 +21,7 @@
                     <div id="notdis" class="card p-4 py-4">
                         <div id = "img-content" class="text-center"> 
                             <img src="{{img}}" height = "100" width="100" class="rounded-circle">
-                            <button class="btn btn-outline-primary px-4">프로필 사진 변경</button> 
+                            <a href="/registerProfile"><button class="btn btn-outline-primary px-4">프로필 사진 변경</button> </a>
                         </div>
                         <div class="text-center mt-3">
                             <h5 id = "username" class="mt-2 mb-0">{{user}}</h5>
@@ -30,8 +30,8 @@
                                <p>내가 좋아요 한 글 개수 : {{ex_len}}</p>
                             </div>
                             <div class="buttons"> 
-                                <button id="mydiary" onclick="location.href='http://localhost:8000/mypage/mydiary/' " class="btn btn-outline-primary px-4">내가 쓴 글</button> 
-                                <button id="likepage" onclick="location.href='http://localhost:8000/mypage/likepage/' "class="btn btn-primary px-4 ms-3">좋아요 한 글</button> </div>
+                                <button id="mydiary" onclick="location.href='/mypage/mydiary/' " class="btn btn-outline-primary px-4">내가 쓴 글</button> 
+                                <button id="likepage" onclick="location.href='/mypage/likepage/' "class="btn btn-primary px-4 ms-3">좋아요 한 글</button> </div>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,8 @@
 from csv import writer
+import encodings
+from encodings import utf_8
 from django.db import IntegrityError
-from django.http import HttpRequest
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.forms.models import model_to_dict
 from django.utils import timezone
@@ -10,6 +12,7 @@ from .forms import DiaryForm
 import requests,json
 from django.core.exceptions import ValidationError
 from html.parser import HTMLParser
+import ast,datetime
 
 # Create your views here.
 #creae view
@@ -131,41 +134,61 @@ def list(request):
     if request.method =='POST':
         if request.POST.get('hidden'):
             ##update 부분
+            print('update')
             update_diary = request.POST.get('hidden')
-            print(update_diary,type(update_diary))
+            update_diary = ast.literal_eval(update_diary)
             diary = Diary.objects.filter(register_date__year=timezone.now().year,register_date__month=timezone.now().month ,register_date__day=timezone.now().day)
-            diary =diary.first()
-            diary.write = update_diary
+            diary =diary.last()
+            format = '%Y년 %m월 %d일 %H:%M 오후'
+            dt_datetime = datetime.datetime.strptime(update_diary[5],format)
+            print(dt_datetime)            
+            diary.write = str(update_diary[0])
+            diary.emotion = str(update_diary[1])
+            diary.neutral = float(update_diary[2])
+            diary.positive = float(update_diary[3])
+            diary.negative = float(update_diary[4])
+            diary.register_date = dt_datetime
             diary.save()
             
-        user_id = request.session['username']
-        writer = Eduser.objects.get(username = user_id)
-        diary_list = Diary.objects.filter(writer= writer)
-        diary_list1 = diary_list[1]
-        diary = diary_list1.diarydetail_set.all()
-        return render(request, 'diary/diary_list.html',{'diary_list':diary_list})
+    user_id = request.session['username']
+    writer = Eduser.objects.get(username = user_id)
+    diary_list = Diary.objects.filter(writer= writer)
+    diary_list1 = diary_list[1]
+    diary = diary_list1.diarydetail_set.all()
+    return render(request, 'diary/diary_list.html',{'diary_list':diary_list})
 
     
 
 def edit(request):
     if request.method =='POST':
         print(request)
-        diary_date = Diary.objects.last().register_date
         #print(diary_date.date,type(diary_date))
         #날짜 지정
         diary_total= Diary.objects.filter(register_date__year=timezone.now().year,register_date__month=timezone.now().month ,register_date__day=timezone.now().day)
+        print(diary_total)
         diary = diary_total.first()
-        print(diary)
-        diary_text = diary_total[1]
-        #2개 이상 삭제 부분
-        if len(diary_total)>1:
+        print(diary.write,'diaryfirst')#방금 쓴거
+        print(diary_total.last().write,'diarylast')#처음에 쓴거
+        if len(diary_total) ==1:
+            return HttpResponseRedirect('/diary/list/')
+        elif len(diary_total)>1:
+            diary_text = diary_total.last()
             print('delte 2over' )
-            diary1 =diary_total.filter(pk__gt = diary_total[0].id)
+            diary1 =diary_total.filter(pk__lt = diary_total[0].id)
             diary1.delete()
-
-        if diary:
             return render(request, 'diary/edit_diary.html',{'diary':diary,'diary_text':diary_text})
 
+
+
+
+        # diary_text = diary_total[1]
+        # print(diary_text,'diayr_text')
+        # #2개 이상 삭제 부분
+        # if len(diary_total)>1:
+        #     
+
+        # if diary:
+        #     
 
             
             # form = '<tr><th><label for="id_write">일기의:</label></th><td><ul class="errorlist"><li>이미 오늘 일기를 작성하셨습니다</li></ul><textarea name="write" cols="40" rows="10" maxlength="100" required id="id_write"></textarea></td></tr> '

@@ -132,19 +132,20 @@ let page = 1
 let int = 1
 renderPage(page)
 function renderPage(pages){
-  fetch(`http://127.0.0.1:8000/boardapi/?page=${pages}`)
+  fetch(`/boardapi/?page=${pages}`)
   .then((response) => response.json())
   .then((result) => {
     for(let i = 0; i<result.results.length; i++){
       const item = document.createElement('div')
       item.className = 'diary';
       let writer_info = JSON.stringify(result.results[i].writer).replaceAll('"','').split(' ')
-      let emo = parseInt(JSON.stringify(result.results[i].emotion).replaceAll('"',''))
-      if (emo ==1)
+      let emo = JSON.stringify(result.results[i].emotion).replaceAll('"','')
+      console.log(emo)
+      if (emo =='positive')
         emo = "😀"
-      else if (emo ==2)
+      else if (emo =='neutral')
         emo ="😐"
-      else if (emo ==3)
+      else if (emo =='negative')
         emo = "😥"
       else
         emo = " "
@@ -166,9 +167,9 @@ function renderPage(pages){
       let expressions_profile = result.results[i].expressions
       console.log(expressions_profile.length)
       let expressions_container = document.createElement('div')
-      expressions_container.className = 'expressions_imgcontainer' 
+      expressions_container.className = `expressions_imgcontainer expressions_imgcontainer${result.results[i].id}`
       for(let i=0; i<expressions_profile.length; i++) {
-        expressions_container.innerHTML += `<div class="expressions_imgbox"><img class='expressions_img' src="${expressions_profile[i].user.profile_img}"></div> `
+        expressions_container.innerHTML += `<div class="expressions_imgbox expressions_imgbox${result.results[i].id}"><img class='expressions_img' src="${expressions_profile[i].user.profile_img?expressions_profile[i].user.profile_img: '/media/profile/default.png'}"></div> `
       }
       {% comment %} console.log("!"+expressions_profile) {% endcomment %}
       
@@ -176,7 +177,6 @@ function renderPage(pages){
         item.innerHTML +=(`
         <div class='diary_item expression${result.results[i].id}box'>
           <div class="expression expression${result.results[i].id}" style="color:#96d4c3">좋아요 ${JSON.stringify(result.results[i].expressions.length)}</div>
-          
         </div>
         `)  
         container.append(item)
@@ -197,7 +197,7 @@ function renderPage(pages){
         console.log(expressionbox)
         expressionbox.append(expressions_container)
         let expression = document.querySelector(`.expression${result.results[i].id}`)
-        expression.addEventListener('click', ()=> {
+        expression.addEventListener('click', (e)=> {
           const csrftoken = getCookie('csrftoken');
           const data = {
             'username':username,
@@ -214,6 +214,17 @@ function renderPage(pages){
           ajax.then(function (result) {
             console.log(result.data);
           }); 
+
+          console.log(e.target.className.slice(21,))
+          console.log(`expressions_imgcontainer${e.target.className.slice(21,)}`)
+          let expression_imgcontainer = document.querySelector(`.expressions_imgcontainer${e.target.className.slice(21,)}`)
+          let expression_imgbox = document.createElement('div')
+          expression_imgbox.setAttribute('class',`expressions_imgbox`)
+          let my_profile = document.createElement('img')
+          my_profile.setAttribute('class',`expressions_img`)
+          my_profile.src = `${img_link!='/media/'?img_link: '/media/profile/default.png'}`
+          expression_imgbox.append(my_profile)
+          expression_imgcontainer.append(expression_imgbox)
           expression.addEventListener('click', ()=> {alert('이미 좋아요 누르셨습니다.')})
           expression.style.color = '#96d4c3'
           expression.innerHTML = '좋아요 ' + String(parseInt(expression.innerHTML.substring(4,))+1)+ '<hr>'
