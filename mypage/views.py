@@ -44,7 +44,7 @@ def mypage(request):
     if img:
         img = "/media/" + img + "/"
     else:
-        img = "/media/profile/default.png/"
+        img = "/static/img/default.png/"
     return render(request, 'mypage/mypage.html', {'user': user, 'img': img, 'ex_len': ex_len, 'my_len': my_len})
 
 
