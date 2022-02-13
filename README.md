@@ -8,11 +8,11 @@ manage.py가 있는 폴더로 들어가서 아래의 명령어를 순차적으�
 - python manage.py runserver
 
 ------
-###Summary
+### Summary
 
 Django Framework/CLOVA Sentiment API를 기반으로한 감정 공유 일기 웹 플랫폼
 
-###Contributors
+### Contributors
 
 [서아현](https://github.com/Jihoon-Lee-Kunis)
 
